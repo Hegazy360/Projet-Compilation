@@ -3,14 +3,17 @@
 extern char* yytext;
 extern int yylex();
 extern int yyerror();
-%}
+%};
 %token PROG DEBUT FIN STRUCT FSTRUCT TABLEAU DE VARIABLE PROCEDURE FONCTION
 %token RETOURNE VIDE
 %token POINT_VIRGULE DEUX_POINTS POINT CROCHET_OUVRANT CROCHET_FERMANT VIRGULE
-%token PARENTHESE_OUVRANTE PARENTHESE_FERMANTE
+%token PARANTHESE_OUVRANTE PARANTHESE_FERMANTE
 %token TYPE IDF
-%token ENTIER REEL BOOLEEN CARACTERE CHAINE CSTE_ENTIERE
-%token ALORS DIFF DIV EGAL FAIRE INFERIEUR INF_EGAL MOINS MULT OPAFF PLUS SI SINON SUPERIEUR SUP_EGAL TANT_QUE
+ /*Ajouté le 15 Octobre 2016*/
+%token ENTIER REEL BOOLEEN CARACTERE CHAINE CSTE_ENTIERE CSTE_REEL
+%token SI ALORS SINON TANT_QUE FAIRE OPAFF
+%token PLUS MOINS MULT DIV OP_COMP
+
 %%
 programme: PROG corps
 ;
@@ -65,11 +68,11 @@ nom_type: type_simple
 ;
 
 type_simple: ENTIER
-          | REEL
-          | BOOLEEN
-          | CARACTERE
-          |CHAINE CROCHET_OUVRANT CSTE_ENTIERE CROCHET_FERMANT
-          ;
+| REEL
+| BOOLEEN
+| CARACTERE
+|CHAINE CROCHET_OUVRANT CSTE_ENTIERE CROCHET_FERMANT
+;
 
 declaration_variable: VARIABLE IDF DEUX_POINTS nom_type
 ;
@@ -81,7 +84,7 @@ declaration_fonction: FONCTION IDF liste_parametres RETOURNE type_simple corps
 ;
 
 liste_parametres:
-| PARENTHESE_OUVRANTE liste_param PARENTHESE_FERMANTE
+| PARANTHESE_OUVRANTE liste_param PARANTHESE_FERMANTE
 ;
 
 liste_param: un_param
@@ -92,22 +95,22 @@ un_param: IDF DEUX_POINTS type_simple
 ;
 
 instruction: affectation
-            | condition
-            | tant_que
-            | appel
-            | VIDE
-            | RETOURNE resultat_retourne
-            ;
+| condition
+| tant_que
+| appel
+| VIDE
+| RETOURNE resultat_retourne
+;
 
 resultat_retourne:
-                | expression
-                ;
+| expression
+;
 
 appel: IDF liste_arguments
 ;
 
 liste_arguments:
-| PARENTHESE_OUVRANTE liste_args PARENTHESE_FERMANTE
+| PARANTHESE_OUVRANTE liste_args PARANTHESE_FERMANTE
 ;
 
 liste_args: un_arg
@@ -126,37 +129,36 @@ tant_que: TANT_QUE expression FAIRE liste_instructions
 affectation: variable OPAFF expression
 ;
 
+
+/*Le copier-coller finit ici...Là c'est nous */
 variable: IDF
-| IDF CROCHET_OUVRANT expression CROCHET_FERMANT
+| IDF CROCHET_OUVRANT exparith CROCHET_FERMANT
 ;
 
 
-expression:
-| IDF
-| ENTIER
-| REEL
-| CARACTERE
-| CHAINE
-| CHAINE PLUS CHAINE
-| ENTIER PLUS ENTIER
-| ENTIER MOINS ENTIER
-| ENTIER MULT ENTIER
-| ENTIER DIV ENTIER
-| ENTIER DIFF ENTIER
-| REEL PLUS REEL
-| REEL MOINS REEL
-| REEL MULT REEL
-| REEL DIV REEL
-| REEL DIFF REEL
-| ENTIER EGAL ENTIER
-| ENTIER INF_EGAL ENTIER
-| ENTIER SUP_EGAL ENTIER
-| ENTIER INFERIEUR ENTIER
-| ENTIER SUPERIEUR ENTIER
-| REEL EGAL REEL
-| REEL INF_EGAL REEL
-| REEL SUP_EGAL REEL
-| REEL INFERIEUR REEL
-| REEL SUPERIEUR REEL
+expression: exparith
+| exprel /*Relations de comparaison (Ex. x < y, a = b, 60 > 30...)*/
 ;
+
+exparith: e1
+;
+
+e1: e1 PLUS e2
+| e1 MOINS e2
+| e2
+;
+
+e2: e2 MULT e3
+| e2 DIV e3
+| e3
+;
+
+e3: PARANTHESE_OUVRANTE e1 PARANTHESE_FERMANTE
+| CSTE_ENTIERE
+| CSTE_REEL
+;
+
+exprel: exparith OP_COMP exparith
+;
+
 %%
