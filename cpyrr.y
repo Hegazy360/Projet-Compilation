@@ -7,7 +7,7 @@ extern int yyerror();
 %token PROG DEBUT FIN STRUCT FSTRUCT TABLEAU DE VARIABLE PROCEDURE FONCTION
 %token RETOURNE VIDE
 %token POINT_VIRGULE DEUX_POINTS POINT CROCHET_OUVRANT CROCHET_FERMANT VIRGULE
-%token PARANTHESE_OUVRANTE PARANTHESE_FERMANTE
+%token PARENTHESE_OUVRANTE PARENTHESE_FERMANTE
 %token TYPE IDF
  /*Ajouté le 15 Octobre 2016*/
 %token ENTIER REEL BOOLEEN CARACTERE CHAINE CSTE_ENTIERE CSTE_REEL
@@ -15,7 +15,7 @@ extern int yyerror();
 %token PLUS MOINS MULT DIV OP_COMP
 
 %%
-programme: PROG corps
+programme:PROG corps
 ;
 
 corps: liste_declarations liste_instructions
@@ -23,7 +23,7 @@ corps: liste_declarations liste_instructions
 ;
 
 liste_declarations: declaration
-| liste_declarations POINT_VIRGULE declaration
+| declaration POINT_VIRGULE liste_declarations
 ;
 
 liste_instructions: DEBUT suite_liste_inst FIN
@@ -43,8 +43,8 @@ declaration_type: TYPE IDF DEUX_POINTS suite_declaration_type
 ;
 
 suite_declaration_type: STRUCT liste_champs FSTRUCT
-| TABLEAU dimension DE nom_type
-;
+| TABLEAU dimension DEUX_POINTS nom_type
+; 
 
 dimension: CROCHET_OUVRANT liste_dimensions CROCHET_FERMANT
 ;
@@ -84,7 +84,7 @@ declaration_fonction: FONCTION IDF liste_parametres RETOURNE type_simple corps
 ;
 
 liste_parametres:
-| PARANTHESE_OUVRANTE liste_param PARANTHESE_FERMANTE
+| PARENTHESE_OUVRANTE liste_param PARENTHESE_FERMANTE
 ;
 
 liste_param: un_param
@@ -110,7 +110,7 @@ appel: IDF liste_arguments
 ;
 
 liste_arguments:
-| PARANTHESE_OUVRANTE liste_args PARANTHESE_FERMANTE
+| PARENTHESE_OUVRANTE liste_args PARENTHESE_FERMANTE
 ;
 
 liste_args: un_arg
@@ -130,7 +130,6 @@ affectation: variable OPAFF expression
 ;
 
 
-/*Le copier-coller finit ici...Là c'est nous */
 variable: IDF
 | IDF CROCHET_OUVRANT exparith CROCHET_FERMANT
 ;
@@ -153,7 +152,7 @@ e2: e2 MULT e3
 | e3
 ;
 
-e3: PARANTHESE_OUVRANTE e1 PARANTHESE_FERMANTE
+e3: PARENTHESE_OUVRANTE e1 PARENTHESE_FERMANTE
 | CSTE_ENTIERE
 | CSTE_REEL
 ;
