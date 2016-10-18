@@ -6,8 +6,8 @@ int numligne=1;
 \;	{return (POINT_VIRGULE);}
 \{	{return (DEBUT);}
 \}	{return (FIN);}
-0|[1-9][0-9]*\.[0-9]* {yylval = atof(yytext);return (REEL);}
-0|[1-9][0-9]* {yylval = atoi(yytext);return (ENTIER);}
+float {yylval = atof(yytext);return (REEL);}
+int {return (ENTIER);}
 prog {return (PROG);}
 type {return (TYPE);}
 struct  {return (STRUCT);}
@@ -22,12 +22,12 @@ then {return (ALORS);}
 else {return (SINON);}
 while {return (TANT_QUE);}
 do {return (FAIRE);}
-(true|false) {return (BOOLEEN);}
-"" {return (VIDE);}
-[A-Z]* {return (CSTE_ENTIERE);}
-[a-zA-Z] {return (CARACTERE);}
+bool {return (BOOLEEN);}
+'' {return (VIDE);}
+0+|0*[1-9][0-9]* {return (CSTE_ENTIERE);}
+char {return (CARACTERE);}
 [a-zA-Z][a-zA-Z0-9]* {return (IDF);printf("OK");}
-[a-zA-Z0-9]* {return (CHAINE);}
+string {return (CHAINE);}
 \:	{return (DEUX_POINTS);}
 \[ {return (CROCHET_OUVRANT);}
 \] {return (CROCHET_FERMANT);}
@@ -40,5 +40,4 @@ do {return (FAIRE);}
 \n {numligne++;}
 . {printf("Attention %s!\n",yytext);}
 %%
-
 
