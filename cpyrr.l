@@ -23,11 +23,11 @@ else {return (SINON);}
 while {return (TANT_QUE);}
 do {return (FAIRE);}
 bool {return (BOOLEEN);}
-'' {return (VIDE);}
+vide {return (VIDE);}
 0+|0*[1-9][0-9]* {return (CSTE_ENTIERE);}
 char {return (CARACTERE);}
-[a-zA-Z][a-zA-Z0-9]* {return (IDF);printf("OK");}
 string {return (CHAINE);}
+[a-zA-Z][a-zA-Z0-9]* {return (IDF);printf("OK");}
 \:	{return (DEUX_POINTS);}
 \[ {return (CROCHET_OUVRANT);}
 \] {return (CROCHET_FERMANT);}
@@ -36,6 +36,11 @@ string {return (CHAINE);}
 \( {return (PARENTHESE_OUVRANTE);}
 \) {return (PARENTHESE_FERMANTE);}
 := {return (OPAFF);}
+\+	{return (PLUS);}
+-	{return (MOINS);}
+\*	{return (MULT);}
+\/	{return (DIV);}
+>|<|=|<=|>=|<> {return (OP_COMP);}
 [ \t]+ ;
 \n {numligne++;}
 . {printf("Attention %s!\n",yytext);}
