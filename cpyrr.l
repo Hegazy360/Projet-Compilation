@@ -27,22 +27,22 @@ vide {return (VIDE);}
 0+|0*[1-9][0-9]* {return (CSTE_ENTIERE);}
 char {return (CARACTERE);}
 string {return (CHAINE);}
-[a-zA-Z][a-zA-Z0-9]* {return (IDF);printf("OK");}
+[a-zA-Z][a-zA-Z0-9]* {return (IDF);printf("OK \n");}
 \:	{return (DEUX_POINTS);}
 \[ {return (CROCHET_OUVRANT);}
 \] {return (CROCHET_FERMANT);}
-\, {return (VIRGULE);}
+\, {return (VIRGULE);} 
 \. {return (POINT);}
 \( {return (PARENTHESE_OUVRANTE);}
 \) {return (PARENTHESE_FERMANTE);}
 := {return (OPAFF);}
-\+	{return (PLUS);}
 -	{return (MOINS);}
 \*	{return (MULT);}
 \/	{return (DIV);}
+\+      {return (PLUS);}
 >|<|=|<=|>=|<> {return (OP_COMP);}
-[ \t]+ ;
+[ \t]+;
 \n {numligne++;}
-. {printf("Attention %s!\n",yytext);}
+. {printf("OK %s!\n",yytext);}
 %%
 

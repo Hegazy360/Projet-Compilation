@@ -73,22 +73,18 @@ extern int yydebug;
     CARACTERE = 283,
     CHAINE = 284,
     CSTE_ENTIERE = 285,
-    ALORS = 286,
-    DIFF = 287,
-    DIV = 288,
-    EGAL = 289,
-    FAIRE = 290,
-    INFERIEUR = 291,
-    INF_EGAL = 292,
-    MOINS = 293,
-    MULT = 294,
-    OPAFF = 295,
-    PLUS = 296,
-    SI = 297,
-    SINON = 298,
-    SUPERIEUR = 299,
-    SUP_EGAL = 300,
-    TANT_QUE = 301
+    CSTE_REEL = 286,
+    SI = 287,
+    ALORS = 288,
+    SINON = 289,
+    TANT_QUE = 290,
+    FAIRE = 291,
+    OPAFF = 292,
+    PLUS = 293,
+    MOINS = 294,
+    MULT = 295,
+    DIV = 296,
+    OP_COMP = 297
   };
 #endif
 /* Tokens.  */
@@ -120,22 +116,18 @@ extern int yydebug;
 #define CARACTERE 283
 #define CHAINE 284
 #define CSTE_ENTIERE 285
-#define ALORS 286
-#define DIFF 287
-#define DIV 288
-#define EGAL 289
-#define FAIRE 290
-#define INFERIEUR 291
-#define INF_EGAL 292
-#define MOINS 293
-#define MULT 294
-#define OPAFF 295
-#define PLUS 296
-#define SI 297
-#define SINON 298
-#define SUPERIEUR 299
-#define SUP_EGAL 300
-#define TANT_QUE 301
+#define CSTE_REEL 286
+#define SI 287
+#define ALORS 288
+#define SINON 289
+#define TANT_QUE 290
+#define FAIRE 291
+#define OPAFF 292
+#define PLUS 293
+#define MOINS 294
+#define MULT 295
+#define DIV 296
+#define OP_COMP 297
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

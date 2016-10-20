@@ -16,7 +16,7 @@ extern int yyerror();
 
 %%
 programme:PROG corps
-;
+; 
 
 corps: liste_declarations liste_instructions
 | liste_instructions
@@ -29,8 +29,8 @@ liste_declarations: declaration
 liste_instructions: DEBUT suite_liste_inst FIN
 ;
 
-suite_liste_inst: instruction
-| suite_liste_inst POINT_VIRGULE instruction
+suite_liste_inst: instruction POINT_VIRGULE
+| suite_liste_inst instruction POINT_VIRGULE
 ;
 
 declaration: declaration_type
@@ -98,6 +98,10 @@ instruction: affectation
 | condition
 | tant_que
 | appel
+| appel PLUS expression 
+| appel MULT expression 
+| appel DIV expression
+| appel MOINS expression
 | VIDE
 | RETOURNE resultat_retourne
 ;
@@ -117,10 +121,11 @@ liste_args: un_arg
 | liste_args VIRGULE un_arg
 ;
 
-un_arg: expression
+un_arg: IDF
+|expression
 ;
 
-condition: SI expression ALORS liste_instructions SINON liste_instructions
+condition: SI exprel ALORS liste_instructions SINON liste_instructions
 ;
 
 tant_que: TANT_QUE expression FAIRE liste_instructions
@@ -129,17 +134,18 @@ tant_que: TANT_QUE expression FAIRE liste_instructions
 affectation: variable OPAFF expression
 ;
 
-
-variable: IDF
-| IDF CROCHET_OUVRANT exparith CROCHET_FERMANT
-;
-
-
 expression: exparith
 | exprel /*Relations de comparaison (Ex. x < y, a = b, 60 > 30...)*/
 ;
-
+variable: IDF
+| IDF CROCHET_OUVRANT exparith CROCHET_FERMANT
+| IDF CROCHET_OUVRANT IDF CROCHET_FERMANT
+| IDF CROCHET_OUVRANT IDF CROCHET_FERMANT POINT IDF
+;
 exparith: e1
+| IDF MULT e1
+| IDF DIV e1
+| IDF MOINS e1
 ;
 
 e1: e1 PLUS e2
