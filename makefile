@@ -18,4 +18,7 @@ lex.yy.c: cpyrr.l
 	$(LEX) cpyrr.l
 y.tab.c: cpyrr.y
 	$(YACC) cpyrr.y
-
+clean:
+	mv cpyrr.tab.c y.tab.c
+	mv cpyrr.tab.h y.tab.h
+	mv cpyrr.output y.output

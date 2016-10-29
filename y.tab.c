@@ -69,7 +69,7 @@ extern char* yytext;
 extern int yylex();
 extern int yyerror();
 
-#line 73 "y.tab.c" /* yacc.c:339  */
+#line 73 "cpyrr.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -88,9 +88,9 @@ extern int yyerror();
 #endif
 
 /* In a future release of Bison, this section will be replaced
-   by #include "y.tab.h".  */
-#ifndef YY_YY_Y_TAB_H_INCLUDED
-# define YY_YY_Y_TAB_H_INCLUDED
+   by #include "cpyrr.tab.h".  */
+#ifndef YY_YY_CPYRR_TAB_H_INCLUDED
+# define YY_YY_CPYRR_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -146,47 +146,6 @@ extern int yydebug;
     OP_COMP = 297
   };
 #endif
-/* Tokens.  */
-#define PROG 258
-#define DEBUT 259
-#define FIN 260
-#define STRUCT 261
-#define FSTRUCT 262
-#define TABLEAU 263
-#define DE 264
-#define VARIABLE 265
-#define PROCEDURE 266
-#define FONCTION 267
-#define RETOURNE 268
-#define VIDE 269
-#define POINT_VIRGULE 270
-#define DEUX_POINTS 271
-#define POINT 272
-#define CROCHET_OUVRANT 273
-#define CROCHET_FERMANT 274
-#define VIRGULE 275
-#define PARENTHESE_OUVRANTE 276
-#define PARENTHESE_FERMANTE 277
-#define TYPE 278
-#define IDF 279
-#define ENTIER 280
-#define REEL 281
-#define BOOLEEN 282
-#define CARACTERE 283
-#define CHAINE 284
-#define CSTE_ENTIERE 285
-#define CSTE_REEL 286
-#define SI 287
-#define ALORS 288
-#define SINON 289
-#define TANT_QUE 290
-#define FAIRE 291
-#define OPAFF 292
-#define PLUS 293
-#define MOINS 294
-#define MULT 295
-#define DIV 296
-#define OP_COMP 297
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -200,11 +159,11 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
+#endif /* !YY_YY_CPYRR_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 208 "y.tab.c" /* yacc.c:358  */
+#line 167 "cpyrr.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -1393,7 +1352,7 @@ yyreduce:
   switch (yyn)
     {
       
-#line 1397 "y.tab.c" /* yacc.c:1646  */
+#line 1356 "cpyrr.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
