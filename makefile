@@ -1,8 +1,14 @@
-YACC= yacc -d -v
 CC= gcc -c
 CCO= gcc -o
-LEX= lex
+COMPIL= bison
 
+ifeq ($(COMPIL), bison) #Selon vous utilisiez LEX et YACC, ou FLEX et Bison
+	YACC= bison -d -v
+	LEX= flex
+else
+	YACC= yacc -d -v
+	LEX= lex
+endif
 
 cpyrr: lex.yy.o y.tab.c
 	$(CCO) $@ lex.yy.o y.tab.c -ly -ll
