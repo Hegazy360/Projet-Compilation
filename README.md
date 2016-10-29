@@ -1,3 +1,3 @@
 # Projet-Compilation
 
-Création d'un compilateur pour les programmes CPYRR
+Branche d'expérimentation du collaborateur Eric DASSE
