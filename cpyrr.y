@@ -92,6 +92,7 @@ liste_param: un_param
 ;
 
 un_param: IDF DEUX_POINTS type_simple
+|CSTE_ENTIERE
 ;
 
 instruction: affectation
@@ -121,7 +122,7 @@ liste_args: un_arg
 | liste_args VIRGULE un_arg
 ;
 
-un_arg: IDF
+un_arg: variable
 |expression
 ;
 
@@ -136,16 +137,22 @@ affectation: variable OPAFF expression
 
 expression: exparith
 | exprel /*Relations de comparaison (Ex. x < y, a = b, 60 > 30...)*/
+| variable
 ;
 variable: IDF
 | IDF CROCHET_OUVRANT exparith CROCHET_FERMANT
+| IDF CROCHET_OUVRANT exparith CROCHET_FERMANT POINT variable
 | IDF CROCHET_OUVRANT IDF CROCHET_FERMANT
-| IDF CROCHET_OUVRANT IDF CROCHET_FERMANT POINT IDF
+| IDF CROCHET_OUVRANT IDF CROCHET_FERMANT POINT variable
+| IDF POINT variable
+| appel POINT variable
+| appel
 ;
 exparith: e1
 | IDF MULT e1
 | IDF DIV e1
 | IDF MOINS e1
+| IDF PLUS e1
 ;
 
 e1: e1 PLUS e2
@@ -161,9 +168,11 @@ e2: e2 MULT e3
 e3: PARENTHESE_OUVRANTE e1 PARENTHESE_FERMANTE
 | CSTE_ENTIERE
 | CSTE_REEL
+| variable
 ;
 
 exprel: exparith OP_COMP exparith
 ;
 
+;
 %%
