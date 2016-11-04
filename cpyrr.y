@@ -30,8 +30,8 @@ liste_declarations: declaration
 liste_instructions: DEBUT suite_liste_inst FIN
 ;
 
-suite_liste_inst: instruction POINT_VIRGULE
-| suite_liste_inst instruction POINT_VIRGULE
+suite_liste_inst: instruction
+| suite_liste_inst instruction //On mettra le point-virgule uniquement sur les instructions concernees
 ;
 
 
@@ -96,12 +96,18 @@ liste_param: un_param
 un_param: IDF DEUX_POINTS type_simple
 ;
 
-instruction: affectation
-| condition
-| tant_que
+instruction: instruction_point_virgule POINT_VIRGULE
+| instruction_cond
+;
+
+instruction_point_virgule: affectation
 | appel
 |	VIDE
 | RETOURNE resultat_retourne
+;
+
+instruction_cond: condition
+| tant_que
 ;
 
 resultat_retourne:
@@ -111,7 +117,7 @@ resultat_retourne:
 appel: IDF liste_arguments
 ;
 
-liste_arguments:
+liste_arguments: PARENTHESE_OUVRANTE PARENTHESE_FERMANTE
 | PARENTHESE_OUVRANTE liste_args PARENTHESE_FERMANTE
 ;
 
@@ -119,28 +125,39 @@ liste_args: un_arg
 | liste_args VIRGULE un_arg
 ;
 
-un_arg: IDF
-| expression
+un_arg: exparith
 ;
 
 condition: SI PARENTHESE_OUVRANTE exprel PARENTHESE_FERMANTE ALORS liste_instructions
-| condition SINON liste_instructions 
+| SI PARENTHESE_OUVRANTE exprel PARENTHESE_FERMANTE ALORS liste_instructions SINON liste_instructions 
 ;
 
-tant_que: TANT_QUE exprel FAIRE liste_instructions
+tant_que: TANT_QUE PARENTHESE_OUVRANTE exprel PARENTHESE_FERMANTE FAIRE liste_instructions
 ;
 
-affectation: variable OPAFF expression
+affectation: variable OPAFF exparith
 ;
 
 expression: exparith
 | exprel /*Relations de comparaison (Ex. x < y, a = b, 60 > 30...)*/
 ;
-variable: IDF
-| IDF CROCHET_OUVRANT exparith CROCHET_FERMANT
-| IDF CROCHET_OUVRANT IDF CROCHET_FERMANT
-| IDF CROCHET_OUVRANT IDF CROCHET_FERMANT POINT IDF
+
+variable: variable_structure
 ;
+
+variable_structure: variable_simple
+| variable_structure POINT IDF
+| variable_structure POINT IDF indices
+;
+
+variable_simple: IDF
+| IDF indices
+;
+
+indices: CROCHET_OUVRANT exparith CROCHET_FERMANT
+| indices CROCHET_OUVRANT exparith CROCHET_FERMANT
+;
+
 exparith: e1
 ;
 
@@ -157,6 +174,8 @@ e2: e2 MULT e3
 e3: PARENTHESE_OUVRANTE e1 PARENTHESE_FERMANTE
 | CSTE_ENTIERE
 | CSTE_REEL
+| variable
+| appel
 ;
 
 exprel: exparith OP_COMP exparith
