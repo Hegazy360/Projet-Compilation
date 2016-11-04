@@ -9,7 +9,7 @@ VIRGULE, POINT, PARENTHESE_OUVRANTE, PARENTHESE_FERMANTE, OPAFF, MOINS, MULT, DI
 
 lettre [a-zA-Z]
 chiffre [0-9]
-signe <(=)*|>(=)*|={2}
+signe <(=)?|>(=)?|={2}|!=
 
 %%
 \;	{return (POINT_VIRGULE);}
@@ -51,7 +51,7 @@ string {return (CHAINE);}
 \/	{return (DIV);}
 \+      {return (PLUS);}
 {signe} {return (OP_COMP);}
-[ \t]+;
+[ \t]+   ;
 \n {numligne++;}
 . {return (UNKNOWN);}
 %%

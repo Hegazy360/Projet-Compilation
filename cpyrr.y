@@ -3,6 +3,7 @@
 extern char* yytext;
 extern int yylex();
 extern int yyerror();
+extern int numligne;
 %};
 %token PROG DEBUT FIN STRUCT FSTRUCT TABLEAU DE VARIABLE PROCEDURE FONCTION
 %token RETOURNE VIDE
@@ -12,7 +13,7 @@ extern int yyerror();
  /*Ajouté le 15 Octobre 2016*/
 %token ENTIER REEL BOOLEEN CARACTERE CHAINE CSTE_ENTIERE CSTE_REEL
 %token SI ALORS SINON TANT_QUE FAIRE OPAFF
-%token PLUS MOINS MULT DIV OP_COMP
+%token PLUS MOINS MULT DIV OP_COMP EXP_BOOL
 
 %%
 programme:PROG corps
@@ -23,7 +24,7 @@ corps: liste_declarations liste_instructions
 ;
 
 liste_declarations: declaration
-| declaration POINT_VIRGULE liste_declarations
+| liste_declarations declaration //On ne met plus le point-virgule parce qu'après la déclaration d'une fonction ou d'une procédure, il n'y en a pas
 ;
 
 liste_instructions: DEBUT suite_liste_inst FIN
@@ -33,8 +34,9 @@ suite_liste_inst: instruction POINT_VIRGULE
 | suite_liste_inst instruction POINT_VIRGULE
 ;
 
-declaration: declaration_type
-| declaration_variable
+
+declaration: declaration_type POINT_VIRGULE //On précise le point-virgule directement à la déclaration concerné
+| declaration_variable POINT_VIRGULE
 | declaration_procedure
 | declaration_fonction
 ;
@@ -42,7 +44,7 @@ declaration: declaration_type
 declaration_type: TYPE IDF DEUX_POINTS suite_declaration_type
 ;
 
-suite_declaration_type: STRUCT liste_champs FSTRUCT
+suite_declaration_type: STRUCT liste_champs POINT_VIRGULE FSTRUCT
 | TABLEAU dimension DEUX_POINTS nom_type
 ; 
 
@@ -53,7 +55,7 @@ liste_dimensions: une_dimension
 | liste_dimensions VIRGULE une_dimension
 ;
 
-une_dimension: expression POINT POINT expression
+une_dimension: exparith POINT POINT exparith
 ;
 
 liste_champs: un_champ
@@ -98,11 +100,7 @@ instruction: affectation
 | condition
 | tant_que
 | appel
-| appel PLUS expression 
-| appel MULT expression 
-| appel DIV expression
-| appel MOINS expression
-| VIDE
+|	VIDE
 | RETOURNE resultat_retourne
 ;
 
@@ -122,13 +120,14 @@ liste_args: un_arg
 ;
 
 un_arg: IDF
-|expression
+| expression
 ;
 
-condition: SI exprel ALORS liste_instructions SINON liste_instructions
+condition: SI PARENTHESE_OUVRANTE exprel PARENTHESE_FERMANTE ALORS liste_instructions
+| condition SINON liste_instructions 
 ;
 
-tant_que: TANT_QUE expression FAIRE liste_instructions
+tant_que: TANT_QUE exprel FAIRE liste_instructions
 ;
 
 affectation: variable OPAFF expression
@@ -143,9 +142,6 @@ variable: IDF
 | IDF CROCHET_OUVRANT IDF CROCHET_FERMANT POINT IDF
 ;
 exparith: e1
-| IDF MULT e1
-| IDF DIV e1
-| IDF MOINS e1
 ;
 
 e1: e1 PLUS e2
@@ -167,3 +163,9 @@ exprel: exparith OP_COMP exparith
 ;
 
 %%
+
+int yyerror(){
+	printf("Erreur en ligne %d\n", numligne);
+	
+	return -1;
+}

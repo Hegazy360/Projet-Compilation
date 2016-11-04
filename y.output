@@ -9,11 +9,11 @@ Grammar
 
     1 programme: PROG corps
 
-    2 corps: liste_declarations liste_instructions
+    2 corps: liste_declarations POINT_VIRGULE liste_instructions
     3      | liste_instructions
 
     4 liste_declarations: declaration
-    5                   | declaration POINT_VIRGULE liste_declarations
+    5                   | liste_declarations POINT_VIRGULE declaration
 
     6 liste_instructions: DEBUT suite_liste_inst FIN
 
@@ -27,7 +27,7 @@ Grammar
 
    13 declaration_type: TYPE IDF DEUX_POINTS suite_declaration_type
 
-   14 suite_declaration_type: STRUCT liste_champs FSTRUCT
+   14 suite_declaration_type: STRUCT liste_champs POINT_VIRGULE FSTRUCT
    15                       | TABLEAU dimension DEUX_POINTS nom_type
 
    16 dimension: CROCHET_OUVRANT liste_dimensions CROCHET_FERMANT
@@ -35,7 +35,7 @@ Grammar
    17 liste_dimensions: une_dimension
    18                 | liste_dimensions VIRGULE une_dimension
 
-   19 une_dimension: expression POINT POINT expression
+   19 une_dimension: exparith POINT POINT exparith
 
    20 liste_champs: un_champ
    21             | liste_champs POINT_VIRGULE un_champ
@@ -69,59 +69,52 @@ Grammar
    39            | condition
    40            | tant_que
    41            | appel
-   42            | appel PLUS expression
-   43            | appel MULT expression
-   44            | appel DIV expression
-   45            | appel MOINS expression
-   46            | VIDE
-   47            | RETOURNE resultat_retourne
+   42            | VIDE
+   43            | RETOURNE resultat_retourne
 
-   48 resultat_retourne: %empty
-   49                  | expression
+   44 resultat_retourne: %empty
+   45                  | expression
 
-   50 appel: IDF liste_arguments
+   46 appel: IDF liste_arguments
 
-   51 liste_arguments: %empty
-   52                | PARENTHESE_OUVRANTE liste_args PARENTHESE_FERMANTE
+   47 liste_arguments: %empty
+   48                | PARENTHESE_OUVRANTE liste_args PARENTHESE_FERMANTE
 
-   53 liste_args: un_arg
-   54           | liste_args VIRGULE un_arg
+   49 liste_args: un_arg
+   50           | liste_args VIRGULE un_arg
 
-   55 un_arg: IDF
-   56       | expression
+   51 un_arg: IDF
+   52       | expression
 
-   57 condition: SI exprel ALORS liste_instructions SINON liste_instructions
+   53 condition: SI exprel ALORS liste_instructions SINON liste_instructions
 
-   58 tant_que: TANT_QUE expression FAIRE liste_instructions
+   54 tant_que: TANT_QUE expression FAIRE liste_instructions
 
-   59 affectation: variable OPAFF expression
+   55 affectation: variable OPAFF expression
 
-   60 expression: exparith
-   61           | exprel
+   56 expression: exparith
+   57           | exprel
 
-   62 variable: IDF
-   63         | IDF CROCHET_OUVRANT exparith CROCHET_FERMANT
-   64         | IDF CROCHET_OUVRANT IDF CROCHET_FERMANT
-   65         | IDF CROCHET_OUVRANT IDF CROCHET_FERMANT POINT IDF
+   58 variable: IDF
+   59         | IDF CROCHET_OUVRANT exparith CROCHET_FERMANT
+   60         | IDF CROCHET_OUVRANT IDF CROCHET_FERMANT
+   61         | IDF CROCHET_OUVRANT IDF CROCHET_FERMANT POINT IDF
 
-   66 exparith: e1
-   67         | IDF MULT e1
-   68         | IDF DIV e1
-   69         | IDF MOINS e1
+   62 exparith: e1
 
-   70 e1: e1 PLUS e2
-   71   | e1 MOINS e2
-   72   | e2
+   63 e1: e1 PLUS e2
+   64   | e1 MOINS e2
+   65   | e2
 
-   73 e2: e2 MULT e3
-   74   | e2 DIV e3
-   75   | e3
+   66 e2: e2 MULT e3
+   67   | e2 DIV e3
+   68   | e3
 
-   76 e3: PARENTHESE_OUVRANTE e1 PARENTHESE_FERMANTE
-   77   | CSTE_ENTIERE
-   78   | CSTE_REEL
+   69 e3: PARENTHESE_OUVRANTE e1 PARENTHESE_FERMANTE
+   70   | CSTE_ENTIERE
+   71   | CSTE_REEL
 
-   79 exprel: exparith OP_COMP exparith
+   72 exprel: exparith OP_COMP exparith
 
 
 Terminals, with rules where they appear
@@ -138,36 +131,36 @@ DE (264)
 VARIABLE (265) 30
 PROCEDURE (266) 31
 FONCTION (267) 32
-RETOURNE (268) 32 47
-VIDE (269) 46
-POINT_VIRGULE (270) 5 7 8 21 36
+RETOURNE (268) 32 43
+VIDE (269) 42
+POINT_VIRGULE (270) 2 5 7 8 14 21 36
 DEUX_POINTS (271) 13 15 22 30 37
-POINT (272) 19 65
-CROCHET_OUVRANT (273) 16 29 63 64 65
-CROCHET_FERMANT (274) 16 29 63 64 65
-VIRGULE (275) 18 54
-PARENTHESE_OUVRANTE (276) 34 52 76
-PARENTHESE_FERMANTE (277) 34 52 76
+POINT (272) 19 61
+CROCHET_OUVRANT (273) 16 29 59 60 61
+CROCHET_FERMANT (274) 16 29 59 60 61
+VIRGULE (275) 18 50
+PARENTHESE_OUVRANTE (276) 34 48 69
+PARENTHESE_FERMANTE (277) 34 48 69
 TYPE (278) 13
-IDF (279) 13 22 24 30 31 32 37 50 55 62 63 64 65 67 68 69
+IDF (279) 13 22 24 30 31 32 37 46 51 58 59 60 61
 ENTIER (280) 25
 REEL (281) 26
 BOOLEEN (282) 27
 CARACTERE (283) 28
 CHAINE (284) 29
-CSTE_ENTIERE (285) 29 77
-CSTE_REEL (286) 78
-SI (287) 57
-ALORS (288) 57
-SINON (289) 57
-TANT_QUE (290) 58
-FAIRE (291) 58
-OPAFF (292) 59
-PLUS (293) 42 70
-MOINS (294) 45 69 71
-MULT (295) 43 67 73
-DIV (296) 44 68 74
-OP_COMP (297) 79
+CSTE_ENTIERE (285) 29 70
+CSTE_REEL (286) 71
+SI (287) 53
+ALORS (288) 53
+SINON (289) 53
+TANT_QUE (290) 54
+FAIRE (291) 54
+OPAFF (292) 55
+PLUS (293) 63
+MOINS (294) 64
+MULT (295) 66
+DIV (296) 67
+OP_COMP (297) 72
 
 
 Nonterminals, with rules where they appear
@@ -181,7 +174,7 @@ corps (45)
 liste_declarations (46)
     on left: 4 5, on right: 2 5
 liste_instructions (47)
-    on left: 6, on right: 2 3 57 58
+    on left: 6, on right: 2 3 53 54
 suite_liste_inst (48)
     on left: 7 8, on right: 6 8
 declaration (49)
@@ -217,37 +210,37 @@ liste_param (63)
 un_param (64)
     on left: 37, on right: 35 36
 instruction (65)
-    on left: 38 39 40 41 42 43 44 45 46 47, on right: 7 8
+    on left: 38 39 40 41 42 43, on right: 7 8
 resultat_retourne (66)
-    on left: 48 49, on right: 47
+    on left: 44 45, on right: 43
 appel (67)
-    on left: 50, on right: 41 42 43 44 45
+    on left: 46, on right: 41
 liste_arguments (68)
-    on left: 51 52, on right: 50
+    on left: 47 48, on right: 46
 liste_args (69)
-    on left: 53 54, on right: 52 54
+    on left: 49 50, on right: 48 50
 un_arg (70)
-    on left: 55 56, on right: 53 54
+    on left: 51 52, on right: 49 50
 condition (71)
-    on left: 57, on right: 39
+    on left: 53, on right: 39
 tant_que (72)
-    on left: 58, on right: 40
+    on left: 54, on right: 40
 affectation (73)
-    on left: 59, on right: 38
+    on left: 55, on right: 38
 expression (74)
-    on left: 60 61, on right: 19 42 43 44 45 49 56 58 59
+    on left: 56 57, on right: 45 52 54 55
 variable (75)
-    on left: 62 63 64 65, on right: 59
+    on left: 58 59 60 61, on right: 55
 exparith (76)
-    on left: 66 67 68 69, on right: 60 63 79
+    on left: 62, on right: 19 56 59 72
 e1 (77)
-    on left: 70 71 72, on right: 66 67 68 69 70 71 76
+    on left: 63 64 65, on right: 62 63 64 69
 e2 (78)
-    on left: 73 74 75, on right: 70 71 72 73 74
+    on left: 66 67 68, on right: 63 64 65 66 67
 e3 (79)
-    on left: 76 77 78, on right: 73 74 75
+    on left: 69 70 71, on right: 66 67 68
 exprel (80)
-    on left: 79, on right: 57 61
+    on left: 72, on right: 53 57
 
 
 State 0
@@ -342,11 +335,10 @@ State 8
 
 State 9
 
-    2 corps: liste_declarations . liste_instructions
+    2 corps: liste_declarations . POINT_VIRGULE liste_instructions
+    5 liste_declarations: liste_declarations . POINT_VIRGULE declaration
 
-    DEBUT  shift, and go to state 3
-
-    liste_instructions  go to state 33
+    POINT_VIRGULE  shift, and go to state 33
 
 
 State 10
@@ -359,9 +351,6 @@ State 10
 State 11
 
     4 liste_declarations: declaration .
-    5                   | declaration . POINT_VIRGULE liste_declarations
-
-    POINT_VIRGULE  shift, and go to state 34
 
     $default  reduce using rule 4 (liste_declarations)
 
@@ -403,79 +392,76 @@ State 16
 
 State 17
 
-   47 instruction: RETOURNE . resultat_retourne
+   43 instruction: RETOURNE . resultat_retourne
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 36
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
 
-    $default  reduce using rule 48 (resultat_retourne)
+    $default  reduce using rule 44 (resultat_retourne)
 
-    resultat_retourne  go to state 39
-    expression         go to state 40
-    exparith           go to state 41
-    e1                 go to state 42
-    e2                 go to state 43
-    e3                 go to state 44
-    exprel             go to state 45
+    resultat_retourne  go to state 37
+    expression         go to state 38
+    exparith           go to state 39
+    e1                 go to state 40
+    e2                 go to state 41
+    e3                 go to state 42
+    exprel             go to state 43
 
 
 State 18
 
-   46 instruction: VIDE .
+   42 instruction: VIDE .
 
-    $default  reduce using rule 46 (instruction)
+    $default  reduce using rule 42 (instruction)
 
 
 State 19
 
-   50 appel: IDF . liste_arguments
-   62 variable: IDF .
-   63         | IDF . CROCHET_OUVRANT exparith CROCHET_FERMANT
-   64         | IDF . CROCHET_OUVRANT IDF CROCHET_FERMANT
-   65         | IDF . CROCHET_OUVRANT IDF CROCHET_FERMANT POINT IDF
+   46 appel: IDF . liste_arguments
+   58 variable: IDF .
+   59         | IDF . CROCHET_OUVRANT exparith CROCHET_FERMANT
+   60         | IDF . CROCHET_OUVRANT IDF CROCHET_FERMANT
+   61         | IDF . CROCHET_OUVRANT IDF CROCHET_FERMANT POINT IDF
 
-    CROCHET_OUVRANT      shift, and go to state 46
-    PARENTHESE_OUVRANTE  shift, and go to state 47
+    CROCHET_OUVRANT      shift, and go to state 44
+    PARENTHESE_OUVRANTE  shift, and go to state 45
 
-    OPAFF     reduce using rule 62 (variable)
-    $default  reduce using rule 51 (liste_arguments)
+    OPAFF     reduce using rule 58 (variable)
+    $default  reduce using rule 47 (liste_arguments)
 
-    liste_arguments  go to state 48
+    liste_arguments  go to state 46
 
 
 State 20
 
-   57 condition: SI . exprel ALORS liste_instructions SINON liste_instructions
+   53 condition: SI . exprel ALORS liste_instructions SINON liste_instructions
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 36
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
 
-    exparith  go to state 49
-    e1        go to state 42
-    e2        go to state 43
-    e3        go to state 44
-    exprel    go to state 50
+    exparith  go to state 47
+    e1        go to state 40
+    e2        go to state 41
+    e3        go to state 42
+    exprel    go to state 48
 
 
 State 21
 
-   58 tant_que: TANT_QUE . expression FAIRE liste_instructions
+   54 tant_que: TANT_QUE . expression FAIRE liste_instructions
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 36
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
 
-    expression  go to state 51
-    exparith    go to state 41
-    e1          go to state 42
-    e2          go to state 43
-    e3          go to state 44
-    exprel      go to state 45
+    expression  go to state 49
+    exparith    go to state 39
+    e1          go to state 40
+    e2          go to state 41
+    e3          go to state 42
+    exprel      go to state 43
 
 
 State 22
@@ -483,14 +469,14 @@ State 22
     6 liste_instructions: DEBUT suite_liste_inst . FIN
     8 suite_liste_inst: suite_liste_inst . instruction POINT_VIRGULE
 
-    FIN       shift, and go to state 52
+    FIN       shift, and go to state 50
     RETOURNE  shift, and go to state 17
     VIDE      shift, and go to state 18
     IDF       shift, and go to state 19
     SI        shift, and go to state 20
     TANT_QUE  shift, and go to state 21
 
-    instruction  go to state 53
+    instruction  go to state 51
     appel        go to state 24
     condition    go to state 25
     tant_que     go to state 26
@@ -502,21 +488,12 @@ State 23
 
     7 suite_liste_inst: instruction . POINT_VIRGULE
 
-    POINT_VIRGULE  shift, and go to state 54
+    POINT_VIRGULE  shift, and go to state 52
 
 
 State 24
 
    41 instruction: appel .
-   42            | appel . PLUS expression
-   43            | appel . MULT expression
-   44            | appel . DIV expression
-   45            | appel . MOINS expression
-
-    PLUS   shift, and go to state 55
-    MOINS  shift, and go to state 56
-    MULT   shift, and go to state 57
-    DIV    shift, and go to state 58
 
     $default  reduce using rule 41 (instruction)
 
@@ -544,367 +521,282 @@ State 27
 
 State 28
 
-   59 affectation: variable . OPAFF expression
+   55 affectation: variable . OPAFF expression
 
-    OPAFF  shift, and go to state 59
+    OPAFF  shift, and go to state 53
 
 
 State 29
 
    30 declaration_variable: VARIABLE IDF . DEUX_POINTS nom_type
 
-    DEUX_POINTS  shift, and go to state 60
+    DEUX_POINTS  shift, and go to state 54
 
 
 State 30
 
    31 declaration_procedure: PROCEDURE IDF . liste_parametres corps
 
-    PARENTHESE_OUVRANTE  shift, and go to state 61
+    PARENTHESE_OUVRANTE  shift, and go to state 55
 
     $default  reduce using rule 33 (liste_parametres)
 
-    liste_parametres  go to state 62
+    liste_parametres  go to state 56
 
 
 State 31
 
    32 declaration_fonction: FONCTION IDF . liste_parametres RETOURNE type_simple corps
 
-    PARENTHESE_OUVRANTE  shift, and go to state 61
+    PARENTHESE_OUVRANTE  shift, and go to state 55
 
     $default  reduce using rule 33 (liste_parametres)
 
-    liste_parametres  go to state 63
+    liste_parametres  go to state 57
 
 
 State 32
 
    13 declaration_type: TYPE IDF . DEUX_POINTS suite_declaration_type
 
-    DEUX_POINTS  shift, and go to state 64
+    DEUX_POINTS  shift, and go to state 58
 
 
 State 33
 
-    2 corps: liste_declarations liste_instructions .
+    2 corps: liste_declarations POINT_VIRGULE . liste_instructions
+    5 liste_declarations: liste_declarations POINT_VIRGULE . declaration
 
-    $default  reduce using rule 2 (corps)
-
-
-State 34
-
-    5 liste_declarations: declaration POINT_VIRGULE . liste_declarations
-
+    DEBUT      shift, and go to state 3
     VARIABLE   shift, and go to state 4
     PROCEDURE  shift, and go to state 5
     FONCTION   shift, and go to state 6
     TYPE       shift, and go to state 7
 
-    liste_declarations     go to state 65
-    declaration            go to state 11
+    liste_instructions     go to state 59
+    declaration            go to state 60
     declaration_type       go to state 12
     declaration_variable   go to state 13
     declaration_procedure  go to state 14
     declaration_fonction   go to state 15
 
 
+State 34
+
+   69 e3: PARENTHESE_OUVRANTE . e1 PARENTHESE_FERMANTE
+
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
+
+    e1  go to state 61
+    e2  go to state 41
+    e3  go to state 42
+
+
 State 35
 
-   76 e3: PARENTHESE_OUVRANTE . e1 PARENTHESE_FERMANTE
+   70 e3: CSTE_ENTIERE .
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
-
-    e1  go to state 66
-    e2  go to state 43
-    e3  go to state 44
+    $default  reduce using rule 70 (e3)
 
 
 State 36
 
-   67 exparith: IDF . MULT e1
-   68         | IDF . DIV e1
-   69         | IDF . MOINS e1
+   71 e3: CSTE_REEL .
 
-    MOINS  shift, and go to state 67
-    MULT   shift, and go to state 68
-    DIV    shift, and go to state 69
+    $default  reduce using rule 71 (e3)
 
 
 State 37
 
-   77 e3: CSTE_ENTIERE .
+   43 instruction: RETOURNE resultat_retourne .
 
-    $default  reduce using rule 77 (e3)
+    $default  reduce using rule 43 (instruction)
 
 
 State 38
 
-   78 e3: CSTE_REEL .
+   45 resultat_retourne: expression .
 
-    $default  reduce using rule 78 (e3)
+    $default  reduce using rule 45 (resultat_retourne)
 
 
 State 39
 
-   47 instruction: RETOURNE resultat_retourne .
+   56 expression: exparith .
+   72 exprel: exparith . OP_COMP exparith
 
-    $default  reduce using rule 47 (instruction)
+    OP_COMP  shift, and go to state 62
+
+    $default  reduce using rule 56 (expression)
 
 
 State 40
 
-   49 resultat_retourne: expression .
+   62 exparith: e1 .
+   63 e1: e1 . PLUS e2
+   64   | e1 . MOINS e2
 
-    $default  reduce using rule 49 (resultat_retourne)
+    PLUS   shift, and go to state 63
+    MOINS  shift, and go to state 64
+
+    $default  reduce using rule 62 (exparith)
 
 
 State 41
 
-   60 expression: exparith .
-   79 exprel: exparith . OP_COMP exparith
+   65 e1: e2 .
+   66 e2: e2 . MULT e3
+   67   | e2 . DIV e3
 
-    OP_COMP  shift, and go to state 70
+    MULT  shift, and go to state 65
+    DIV   shift, and go to state 66
 
-    $default  reduce using rule 60 (expression)
+    $default  reduce using rule 65 (e1)
 
 
 State 42
 
-   66 exparith: e1 .
-   70 e1: e1 . PLUS e2
-   71   | e1 . MOINS e2
+   68 e2: e3 .
 
-    PLUS   shift, and go to state 71
-    MOINS  shift, and go to state 72
-
-    $default  reduce using rule 66 (exparith)
+    $default  reduce using rule 68 (e2)
 
 
 State 43
 
-   72 e1: e2 .
-   73 e2: e2 . MULT e3
-   74   | e2 . DIV e3
+   57 expression: exprel .
 
-    MULT  shift, and go to state 73
-    DIV   shift, and go to state 74
-
-    $default  reduce using rule 72 (e1)
+    $default  reduce using rule 57 (expression)
 
 
 State 44
 
-   75 e2: e3 .
+   59 variable: IDF CROCHET_OUVRANT . exparith CROCHET_FERMANT
+   60         | IDF CROCHET_OUVRANT . IDF CROCHET_FERMANT
+   61         | IDF CROCHET_OUVRANT . IDF CROCHET_FERMANT POINT IDF
 
-    $default  reduce using rule 75 (e2)
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    IDF                  shift, and go to state 67
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
+
+    exparith  go to state 68
+    e1        go to state 40
+    e2        go to state 41
+    e3        go to state 42
 
 
 State 45
 
-   61 expression: exprel .
+   48 liste_arguments: PARENTHESE_OUVRANTE . liste_args PARENTHESE_FERMANTE
 
-    $default  reduce using rule 61 (expression)
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    IDF                  shift, and go to state 69
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
+
+    liste_args  go to state 70
+    un_arg      go to state 71
+    expression  go to state 72
+    exparith    go to state 39
+    e1          go to state 40
+    e2          go to state 41
+    e3          go to state 42
+    exprel      go to state 43
 
 
 State 46
 
-   63 variable: IDF CROCHET_OUVRANT . exparith CROCHET_FERMANT
-   64         | IDF CROCHET_OUVRANT . IDF CROCHET_FERMANT
-   65         | IDF CROCHET_OUVRANT . IDF CROCHET_FERMANT POINT IDF
+   46 appel: IDF liste_arguments .
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 75
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
-
-    exparith  go to state 76
-    e1        go to state 42
-    e2        go to state 43
-    e3        go to state 44
+    $default  reduce using rule 46 (appel)
 
 
 State 47
 
-   52 liste_arguments: PARENTHESE_OUVRANTE . liste_args PARENTHESE_FERMANTE
+   72 exprel: exparith . OP_COMP exparith
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 77
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
-
-    liste_args  go to state 78
-    un_arg      go to state 79
-    expression  go to state 80
-    exparith    go to state 41
-    e1          go to state 42
-    e2          go to state 43
-    e3          go to state 44
-    exprel      go to state 45
+    OP_COMP  shift, and go to state 62
 
 
 State 48
 
-   50 appel: IDF liste_arguments .
+   53 condition: SI exprel . ALORS liste_instructions SINON liste_instructions
 
-    $default  reduce using rule 50 (appel)
+    ALORS  shift, and go to state 73
 
 
 State 49
 
-   79 exprel: exparith . OP_COMP exparith
+   54 tant_que: TANT_QUE expression . FAIRE liste_instructions
 
-    OP_COMP  shift, and go to state 70
+    FAIRE  shift, and go to state 74
 
 
 State 50
-
-   57 condition: SI exprel . ALORS liste_instructions SINON liste_instructions
-
-    ALORS  shift, and go to state 81
-
-
-State 51
-
-   58 tant_que: TANT_QUE expression . FAIRE liste_instructions
-
-    FAIRE  shift, and go to state 82
-
-
-State 52
 
     6 liste_instructions: DEBUT suite_liste_inst FIN .
 
     $default  reduce using rule 6 (liste_instructions)
 
 
-State 53
+State 51
 
     8 suite_liste_inst: suite_liste_inst instruction . POINT_VIRGULE
 
-    POINT_VIRGULE  shift, and go to state 83
+    POINT_VIRGULE  shift, and go to state 75
 
 
-State 54
+State 52
 
     7 suite_liste_inst: instruction POINT_VIRGULE .
 
     $default  reduce using rule 7 (suite_liste_inst)
 
 
-State 55
+State 53
 
-   42 instruction: appel PLUS . expression
+   55 affectation: variable OPAFF . expression
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 36
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
 
-    expression  go to state 84
-    exparith    go to state 41
-    e1          go to state 42
-    e2          go to state 43
-    e3          go to state 44
-    exprel      go to state 45
-
-
-State 56
-
-   45 instruction: appel MOINS . expression
-
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 36
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
-
-    expression  go to state 85
-    exparith    go to state 41
-    e1          go to state 42
-    e2          go to state 43
-    e3          go to state 44
-    exprel      go to state 45
+    expression  go to state 76
+    exparith    go to state 39
+    e1          go to state 40
+    e2          go to state 41
+    e3          go to state 42
+    exprel      go to state 43
 
 
-State 57
-
-   43 instruction: appel MULT . expression
-
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 36
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
-
-    expression  go to state 86
-    exparith    go to state 41
-    e1          go to state 42
-    e2          go to state 43
-    e3          go to state 44
-    exprel      go to state 45
-
-
-State 58
-
-   44 instruction: appel DIV . expression
-
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 36
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
-
-    expression  go to state 87
-    exparith    go to state 41
-    e1          go to state 42
-    e2          go to state 43
-    e3          go to state 44
-    exprel      go to state 45
-
-
-State 59
-
-   59 affectation: variable OPAFF . expression
-
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 36
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
-
-    expression  go to state 88
-    exparith    go to state 41
-    e1          go to state 42
-    e2          go to state 43
-    e3          go to state 44
-    exprel      go to state 45
-
-
-State 60
+State 54
 
    30 declaration_variable: VARIABLE IDF DEUX_POINTS . nom_type
 
-    IDF        shift, and go to state 89
-    ENTIER     shift, and go to state 90
-    REEL       shift, and go to state 91
-    BOOLEEN    shift, and go to state 92
-    CARACTERE  shift, and go to state 93
-    CHAINE     shift, and go to state 94
+    IDF        shift, and go to state 77
+    ENTIER     shift, and go to state 78
+    REEL       shift, and go to state 79
+    BOOLEEN    shift, and go to state 80
+    CARACTERE  shift, and go to state 81
+    CHAINE     shift, and go to state 82
 
-    nom_type     go to state 95
-    type_simple  go to state 96
+    nom_type     go to state 83
+    type_simple  go to state 84
 
 
-State 61
+State 55
 
    34 liste_parametres: PARENTHESE_OUVRANTE . liste_param PARENTHESE_FERMANTE
 
-    IDF  shift, and go to state 97
+    IDF  shift, and go to state 85
 
-    liste_param  go to state 98
-    un_param     go to state 99
+    liste_param  go to state 86
+    un_param     go to state 87
 
 
-State 62
+State 56
 
    31 declaration_procedure: PROCEDURE IDF liste_parametres . corps
 
@@ -914,7 +806,7 @@ State 62
     FONCTION   shift, and go to state 6
     TYPE       shift, and go to state 7
 
-    corps                  go to state 100
+    corps                  go to state 88
     liste_declarations     go to state 9
     liste_instructions     go to state 10
     declaration            go to state 11
@@ -924,565 +816,455 @@ State 62
     declaration_fonction   go to state 15
 
 
-State 63
+State 57
 
    32 declaration_fonction: FONCTION IDF liste_parametres . RETOURNE type_simple corps
 
-    RETOURNE  shift, and go to state 101
+    RETOURNE  shift, and go to state 89
 
 
-State 64
+State 58
 
    13 declaration_type: TYPE IDF DEUX_POINTS . suite_declaration_type
 
-    STRUCT   shift, and go to state 102
-    TABLEAU  shift, and go to state 103
+    STRUCT   shift, and go to state 90
+    TABLEAU  shift, and go to state 91
 
-    suite_declaration_type  go to state 104
+    suite_declaration_type  go to state 92
 
 
-State 65
+State 59
 
-    5 liste_declarations: declaration POINT_VIRGULE liste_declarations .
+    2 corps: liste_declarations POINT_VIRGULE liste_instructions .
+
+    $default  reduce using rule 2 (corps)
+
+
+State 60
+
+    5 liste_declarations: liste_declarations POINT_VIRGULE declaration .
 
     $default  reduce using rule 5 (liste_declarations)
 
 
+State 61
+
+   63 e1: e1 . PLUS e2
+   64   | e1 . MOINS e2
+   69 e3: PARENTHESE_OUVRANTE e1 . PARENTHESE_FERMANTE
+
+    PARENTHESE_FERMANTE  shift, and go to state 93
+    PLUS                 shift, and go to state 63
+    MOINS                shift, and go to state 64
+
+
+State 62
+
+   72 exprel: exparith OP_COMP . exparith
+
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
+
+    exparith  go to state 94
+    e1        go to state 40
+    e2        go to state 41
+    e3        go to state 42
+
+
+State 63
+
+   63 e1: e1 PLUS . e2
+
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
+
+    e2  go to state 95
+    e3  go to state 42
+
+
+State 64
+
+   64 e1: e1 MOINS . e2
+
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
+
+    e2  go to state 96
+    e3  go to state 42
+
+
+State 65
+
+   66 e2: e2 MULT . e3
+
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
+
+    e3  go to state 97
+
+
 State 66
 
-   70 e1: e1 . PLUS e2
-   71   | e1 . MOINS e2
-   76 e3: PARENTHESE_OUVRANTE e1 . PARENTHESE_FERMANTE
+   67 e2: e2 DIV . e3
 
-    PARENTHESE_FERMANTE  shift, and go to state 105
-    PLUS                 shift, and go to state 71
-    MOINS                shift, and go to state 72
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
+
+    e3  go to state 98
 
 
 State 67
 
-   69 exparith: IDF MOINS . e1
+   60 variable: IDF CROCHET_OUVRANT IDF . CROCHET_FERMANT
+   61         | IDF CROCHET_OUVRANT IDF . CROCHET_FERMANT POINT IDF
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
-
-    e1  go to state 106
-    e2  go to state 43
-    e3  go to state 44
+    CROCHET_FERMANT  shift, and go to state 99
 
 
 State 68
 
-   67 exparith: IDF MULT . e1
+   59 variable: IDF CROCHET_OUVRANT exparith . CROCHET_FERMANT
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
-
-    e1  go to state 107
-    e2  go to state 43
-    e3  go to state 44
+    CROCHET_FERMANT  shift, and go to state 100
 
 
 State 69
 
-   68 exparith: IDF DIV . e1
+   51 un_arg: IDF .
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
-
-    e1  go to state 108
-    e2  go to state 43
-    e3  go to state 44
+    $default  reduce using rule 51 (un_arg)
 
 
 State 70
 
-   79 exprel: exparith OP_COMP . exparith
+   48 liste_arguments: PARENTHESE_OUVRANTE liste_args . PARENTHESE_FERMANTE
+   50 liste_args: liste_args . VIRGULE un_arg
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 36
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
-
-    exparith  go to state 109
-    e1        go to state 42
-    e2        go to state 43
-    e3        go to state 44
+    VIRGULE              shift, and go to state 101
+    PARENTHESE_FERMANTE  shift, and go to state 102
 
 
 State 71
 
-   70 e1: e1 PLUS . e2
+   49 liste_args: un_arg .
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
-
-    e2  go to state 110
-    e3  go to state 44
+    $default  reduce using rule 49 (liste_args)
 
 
 State 72
 
-   71 e1: e1 MOINS . e2
+   52 un_arg: expression .
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
-
-    e2  go to state 111
-    e3  go to state 44
+    $default  reduce using rule 52 (un_arg)
 
 
 State 73
 
-   73 e2: e2 MULT . e3
+   53 condition: SI exprel ALORS . liste_instructions SINON liste_instructions
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
+    DEBUT  shift, and go to state 3
 
-    e3  go to state 112
+    liste_instructions  go to state 103
 
 
 State 74
 
-   74 e2: e2 DIV . e3
+   54 tant_que: TANT_QUE expression FAIRE . liste_instructions
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
+    DEBUT  shift, and go to state 3
 
-    e3  go to state 113
+    liste_instructions  go to state 104
 
 
 State 75
-
-   64 variable: IDF CROCHET_OUVRANT IDF . CROCHET_FERMANT
-   65         | IDF CROCHET_OUVRANT IDF . CROCHET_FERMANT POINT IDF
-   67 exparith: IDF . MULT e1
-   68         | IDF . DIV e1
-   69         | IDF . MOINS e1
-
-    CROCHET_FERMANT  shift, and go to state 114
-    MOINS            shift, and go to state 67
-    MULT             shift, and go to state 68
-    DIV              shift, and go to state 69
-
-
-State 76
-
-   63 variable: IDF CROCHET_OUVRANT exparith . CROCHET_FERMANT
-
-    CROCHET_FERMANT  shift, and go to state 115
-
-
-State 77
-
-   55 un_arg: IDF .
-   67 exparith: IDF . MULT e1
-   68         | IDF . DIV e1
-   69         | IDF . MOINS e1
-
-    MOINS  shift, and go to state 67
-    MULT   shift, and go to state 68
-    DIV    shift, and go to state 69
-
-    $default  reduce using rule 55 (un_arg)
-
-
-State 78
-
-   52 liste_arguments: PARENTHESE_OUVRANTE liste_args . PARENTHESE_FERMANTE
-   54 liste_args: liste_args . VIRGULE un_arg
-
-    VIRGULE              shift, and go to state 116
-    PARENTHESE_FERMANTE  shift, and go to state 117
-
-
-State 79
-
-   53 liste_args: un_arg .
-
-    $default  reduce using rule 53 (liste_args)
-
-
-State 80
-
-   56 un_arg: expression .
-
-    $default  reduce using rule 56 (un_arg)
-
-
-State 81
-
-   57 condition: SI exprel ALORS . liste_instructions SINON liste_instructions
-
-    DEBUT  shift, and go to state 3
-
-    liste_instructions  go to state 118
-
-
-State 82
-
-   58 tant_que: TANT_QUE expression FAIRE . liste_instructions
-
-    DEBUT  shift, and go to state 3
-
-    liste_instructions  go to state 119
-
-
-State 83
 
     8 suite_liste_inst: suite_liste_inst instruction POINT_VIRGULE .
 
     $default  reduce using rule 8 (suite_liste_inst)
 
 
-State 84
+State 76
 
-   42 instruction: appel PLUS expression .
+   55 affectation: variable OPAFF expression .
 
-    $default  reduce using rule 42 (instruction)
-
-
-State 85
-
-   45 instruction: appel MOINS expression .
-
-    $default  reduce using rule 45 (instruction)
+    $default  reduce using rule 55 (affectation)
 
 
-State 86
-
-   43 instruction: appel MULT expression .
-
-    $default  reduce using rule 43 (instruction)
-
-
-State 87
-
-   44 instruction: appel DIV expression .
-
-    $default  reduce using rule 44 (instruction)
-
-
-State 88
-
-   59 affectation: variable OPAFF expression .
-
-    $default  reduce using rule 59 (affectation)
-
-
-State 89
+State 77
 
    24 nom_type: IDF .
 
     $default  reduce using rule 24 (nom_type)
 
 
-State 90
+State 78
 
    25 type_simple: ENTIER .
 
     $default  reduce using rule 25 (type_simple)
 
 
-State 91
+State 79
 
    26 type_simple: REEL .
 
     $default  reduce using rule 26 (type_simple)
 
 
-State 92
+State 80
 
    27 type_simple: BOOLEEN .
 
     $default  reduce using rule 27 (type_simple)
 
 
-State 93
+State 81
 
    28 type_simple: CARACTERE .
 
     $default  reduce using rule 28 (type_simple)
 
 
-State 94
+State 82
 
    29 type_simple: CHAINE . CROCHET_OUVRANT CSTE_ENTIERE CROCHET_FERMANT
 
-    CROCHET_OUVRANT  shift, and go to state 120
+    CROCHET_OUVRANT  shift, and go to state 105
 
 
-State 95
+State 83
 
    30 declaration_variable: VARIABLE IDF DEUX_POINTS nom_type .
 
     $default  reduce using rule 30 (declaration_variable)
 
 
-State 96
+State 84
 
    23 nom_type: type_simple .
 
     $default  reduce using rule 23 (nom_type)
 
 
-State 97
+State 85
 
    37 un_param: IDF . DEUX_POINTS type_simple
 
-    DEUX_POINTS  shift, and go to state 121
+    DEUX_POINTS  shift, and go to state 106
 
 
-State 98
+State 86
 
    34 liste_parametres: PARENTHESE_OUVRANTE liste_param . PARENTHESE_FERMANTE
    36 liste_param: liste_param . POINT_VIRGULE un_param
 
-    POINT_VIRGULE        shift, and go to state 122
-    PARENTHESE_FERMANTE  shift, and go to state 123
+    POINT_VIRGULE        shift, and go to state 107
+    PARENTHESE_FERMANTE  shift, and go to state 108
 
 
-State 99
+State 87
 
    35 liste_param: un_param .
 
     $default  reduce using rule 35 (liste_param)
 
 
-State 100
+State 88
 
    31 declaration_procedure: PROCEDURE IDF liste_parametres corps .
 
     $default  reduce using rule 31 (declaration_procedure)
 
 
-State 101
+State 89
 
    32 declaration_fonction: FONCTION IDF liste_parametres RETOURNE . type_simple corps
 
-    ENTIER     shift, and go to state 90
-    REEL       shift, and go to state 91
-    BOOLEEN    shift, and go to state 92
-    CARACTERE  shift, and go to state 93
-    CHAINE     shift, and go to state 94
+    ENTIER     shift, and go to state 78
+    REEL       shift, and go to state 79
+    BOOLEEN    shift, and go to state 80
+    CARACTERE  shift, and go to state 81
+    CHAINE     shift, and go to state 82
 
-    type_simple  go to state 124
-
-
-State 102
-
-   14 suite_declaration_type: STRUCT . liste_champs FSTRUCT
-
-    IDF  shift, and go to state 125
-
-    liste_champs  go to state 126
-    un_champ      go to state 127
+    type_simple  go to state 109
 
 
-State 103
+State 90
+
+   14 suite_declaration_type: STRUCT . liste_champs POINT_VIRGULE FSTRUCT
+
+    IDF  shift, and go to state 110
+
+    liste_champs  go to state 111
+    un_champ      go to state 112
+
+
+State 91
 
    15 suite_declaration_type: TABLEAU . dimension DEUX_POINTS nom_type
 
-    CROCHET_OUVRANT  shift, and go to state 128
+    CROCHET_OUVRANT  shift, and go to state 113
 
-    dimension  go to state 129
+    dimension  go to state 114
 
 
-State 104
+State 92
 
    13 declaration_type: TYPE IDF DEUX_POINTS suite_declaration_type .
 
     $default  reduce using rule 13 (declaration_type)
 
 
+State 93
+
+   69 e3: PARENTHESE_OUVRANTE e1 PARENTHESE_FERMANTE .
+
+    $default  reduce using rule 69 (e3)
+
+
+State 94
+
+   72 exprel: exparith OP_COMP exparith .
+
+    $default  reduce using rule 72 (exprel)
+
+
+State 95
+
+   63 e1: e1 PLUS e2 .
+   66 e2: e2 . MULT e3
+   67   | e2 . DIV e3
+
+    MULT  shift, and go to state 65
+    DIV   shift, and go to state 66
+
+    $default  reduce using rule 63 (e1)
+
+
+State 96
+
+   64 e1: e1 MOINS e2 .
+   66 e2: e2 . MULT e3
+   67   | e2 . DIV e3
+
+    MULT  shift, and go to state 65
+    DIV   shift, and go to state 66
+
+    $default  reduce using rule 64 (e1)
+
+
+State 97
+
+   66 e2: e2 MULT e3 .
+
+    $default  reduce using rule 66 (e2)
+
+
+State 98
+
+   67 e2: e2 DIV e3 .
+
+    $default  reduce using rule 67 (e2)
+
+
+State 99
+
+   60 variable: IDF CROCHET_OUVRANT IDF CROCHET_FERMANT .
+   61         | IDF CROCHET_OUVRANT IDF CROCHET_FERMANT . POINT IDF
+
+    POINT  shift, and go to state 115
+
+    $default  reduce using rule 60 (variable)
+
+
+State 100
+
+   59 variable: IDF CROCHET_OUVRANT exparith CROCHET_FERMANT .
+
+    $default  reduce using rule 59 (variable)
+
+
+State 101
+
+   50 liste_args: liste_args VIRGULE . un_arg
+
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    IDF                  shift, and go to state 69
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
+
+    un_arg      go to state 116
+    expression  go to state 72
+    exparith    go to state 39
+    e1          go to state 40
+    e2          go to state 41
+    e3          go to state 42
+    exprel      go to state 43
+
+
+State 102
+
+   48 liste_arguments: PARENTHESE_OUVRANTE liste_args PARENTHESE_FERMANTE .
+
+    $default  reduce using rule 48 (liste_arguments)
+
+
+State 103
+
+   53 condition: SI exprel ALORS liste_instructions . SINON liste_instructions
+
+    SINON  shift, and go to state 117
+
+
+State 104
+
+   54 tant_que: TANT_QUE expression FAIRE liste_instructions .
+
+    $default  reduce using rule 54 (tant_que)
+
+
 State 105
 
-   76 e3: PARENTHESE_OUVRANTE e1 PARENTHESE_FERMANTE .
+   29 type_simple: CHAINE CROCHET_OUVRANT . CSTE_ENTIERE CROCHET_FERMANT
 
-    $default  reduce using rule 76 (e3)
+    CSTE_ENTIERE  shift, and go to state 118
 
 
 State 106
 
-   69 exparith: IDF MOINS e1 .
-   70 e1: e1 . PLUS e2
-   71   | e1 . MOINS e2
+   37 un_param: IDF DEUX_POINTS . type_simple
 
-    PLUS   shift, and go to state 71
-    MOINS  shift, and go to state 72
+    ENTIER     shift, and go to state 78
+    REEL       shift, and go to state 79
+    BOOLEEN    shift, and go to state 80
+    CARACTERE  shift, and go to state 81
+    CHAINE     shift, and go to state 82
 
-    $default  reduce using rule 69 (exparith)
+    type_simple  go to state 119
 
 
 State 107
 
-   67 exparith: IDF MULT e1 .
-   70 e1: e1 . PLUS e2
-   71   | e1 . MOINS e2
+   36 liste_param: liste_param POINT_VIRGULE . un_param
 
-    PLUS   shift, and go to state 71
-    MOINS  shift, and go to state 72
+    IDF  shift, and go to state 85
 
-    $default  reduce using rule 67 (exparith)
+    un_param  go to state 120
 
 
 State 108
-
-   68 exparith: IDF DIV e1 .
-   70 e1: e1 . PLUS e2
-   71   | e1 . MOINS e2
-
-    PLUS   shift, and go to state 71
-    MOINS  shift, and go to state 72
-
-    $default  reduce using rule 68 (exparith)
-
-
-State 109
-
-   79 exprel: exparith OP_COMP exparith .
-
-    $default  reduce using rule 79 (exprel)
-
-
-State 110
-
-   70 e1: e1 PLUS e2 .
-   73 e2: e2 . MULT e3
-   74   | e2 . DIV e3
-
-    MULT  shift, and go to state 73
-    DIV   shift, and go to state 74
-
-    $default  reduce using rule 70 (e1)
-
-
-State 111
-
-   71 e1: e1 MOINS e2 .
-   73 e2: e2 . MULT e3
-   74   | e2 . DIV e3
-
-    MULT  shift, and go to state 73
-    DIV   shift, and go to state 74
-
-    $default  reduce using rule 71 (e1)
-
-
-State 112
-
-   73 e2: e2 MULT e3 .
-
-    $default  reduce using rule 73 (e2)
-
-
-State 113
-
-   74 e2: e2 DIV e3 .
-
-    $default  reduce using rule 74 (e2)
-
-
-State 114
-
-   64 variable: IDF CROCHET_OUVRANT IDF CROCHET_FERMANT .
-   65         | IDF CROCHET_OUVRANT IDF CROCHET_FERMANT . POINT IDF
-
-    POINT  shift, and go to state 130
-
-    $default  reduce using rule 64 (variable)
-
-
-State 115
-
-   63 variable: IDF CROCHET_OUVRANT exparith CROCHET_FERMANT .
-
-    $default  reduce using rule 63 (variable)
-
-
-State 116
-
-   54 liste_args: liste_args VIRGULE . un_arg
-
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 77
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
-
-    un_arg      go to state 131
-    expression  go to state 80
-    exparith    go to state 41
-    e1          go to state 42
-    e2          go to state 43
-    e3          go to state 44
-    exprel      go to state 45
-
-
-State 117
-
-   52 liste_arguments: PARENTHESE_OUVRANTE liste_args PARENTHESE_FERMANTE .
-
-    $default  reduce using rule 52 (liste_arguments)
-
-
-State 118
-
-   57 condition: SI exprel ALORS liste_instructions . SINON liste_instructions
-
-    SINON  shift, and go to state 132
-
-
-State 119
-
-   58 tant_que: TANT_QUE expression FAIRE liste_instructions .
-
-    $default  reduce using rule 58 (tant_que)
-
-
-State 120
-
-   29 type_simple: CHAINE CROCHET_OUVRANT . CSTE_ENTIERE CROCHET_FERMANT
-
-    CSTE_ENTIERE  shift, and go to state 133
-
-
-State 121
-
-   37 un_param: IDF DEUX_POINTS . type_simple
-
-    ENTIER     shift, and go to state 90
-    REEL       shift, and go to state 91
-    BOOLEEN    shift, and go to state 92
-    CARACTERE  shift, and go to state 93
-    CHAINE     shift, and go to state 94
-
-    type_simple  go to state 134
-
-
-State 122
-
-   36 liste_param: liste_param POINT_VIRGULE . un_param
-
-    IDF  shift, and go to state 97
-
-    un_param  go to state 135
-
-
-State 123
 
    34 liste_parametres: PARENTHESE_OUVRANTE liste_param PARENTHESE_FERMANTE .
 
     $default  reduce using rule 34 (liste_parametres)
 
 
-State 124
+State 109
 
    32 declaration_fonction: FONCTION IDF liste_parametres RETOURNE type_simple . corps
 
@@ -1492,7 +1274,7 @@ State 124
     FONCTION   shift, and go to state 6
     TYPE       shift, and go to state 7
 
-    corps                  go to state 136
+    corps                  go to state 121
     liste_declarations     go to state 9
     liste_instructions     go to state 10
     declaration            go to state 11
@@ -1502,275 +1284,267 @@ State 124
     declaration_fonction   go to state 15
 
 
-State 125
+State 110
 
    22 un_champ: IDF . DEUX_POINTS nom_type
 
-    DEUX_POINTS  shift, and go to state 137
+    DEUX_POINTS  shift, and go to state 122
 
 
-State 126
+State 111
 
-   14 suite_declaration_type: STRUCT liste_champs . FSTRUCT
+   14 suite_declaration_type: STRUCT liste_champs . POINT_VIRGULE FSTRUCT
    21 liste_champs: liste_champs . POINT_VIRGULE un_champ
 
-    FSTRUCT        shift, and go to state 138
-    POINT_VIRGULE  shift, and go to state 139
+    POINT_VIRGULE  shift, and go to state 123
 
 
-State 127
+State 112
 
    20 liste_champs: un_champ .
 
     $default  reduce using rule 20 (liste_champs)
 
 
-State 128
+State 113
 
    16 dimension: CROCHET_OUVRANT . liste_dimensions CROCHET_FERMANT
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 36
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
 
-    liste_dimensions  go to state 140
-    une_dimension     go to state 141
-    expression        go to state 142
-    exparith          go to state 41
-    e1                go to state 42
-    e2                go to state 43
-    e3                go to state 44
-    exprel            go to state 45
+    liste_dimensions  go to state 124
+    une_dimension     go to state 125
+    exparith          go to state 126
+    e1                go to state 40
+    e2                go to state 41
+    e3                go to state 42
 
 
-State 129
+State 114
 
    15 suite_declaration_type: TABLEAU dimension . DEUX_POINTS nom_type
 
-    DEUX_POINTS  shift, and go to state 143
+    DEUX_POINTS  shift, and go to state 127
 
 
-State 130
+State 115
 
-   65 variable: IDF CROCHET_OUVRANT IDF CROCHET_FERMANT POINT . IDF
+   61 variable: IDF CROCHET_OUVRANT IDF CROCHET_FERMANT POINT . IDF
 
-    IDF  shift, and go to state 144
-
-
-State 131
-
-   54 liste_args: liste_args VIRGULE un_arg .
-
-    $default  reduce using rule 54 (liste_args)
+    IDF  shift, and go to state 128
 
 
-State 132
+State 116
 
-   57 condition: SI exprel ALORS liste_instructions SINON . liste_instructions
+   50 liste_args: liste_args VIRGULE un_arg .
+
+    $default  reduce using rule 50 (liste_args)
+
+
+State 117
+
+   53 condition: SI exprel ALORS liste_instructions SINON . liste_instructions
 
     DEBUT  shift, and go to state 3
 
-    liste_instructions  go to state 145
+    liste_instructions  go to state 129
 
 
-State 133
+State 118
 
    29 type_simple: CHAINE CROCHET_OUVRANT CSTE_ENTIERE . CROCHET_FERMANT
 
-    CROCHET_FERMANT  shift, and go to state 146
+    CROCHET_FERMANT  shift, and go to state 130
 
 
-State 134
+State 119
 
    37 un_param: IDF DEUX_POINTS type_simple .
 
     $default  reduce using rule 37 (un_param)
 
 
-State 135
+State 120
 
    36 liste_param: liste_param POINT_VIRGULE un_param .
 
     $default  reduce using rule 36 (liste_param)
 
 
-State 136
+State 121
 
    32 declaration_fonction: FONCTION IDF liste_parametres RETOURNE type_simple corps .
 
     $default  reduce using rule 32 (declaration_fonction)
 
 
-State 137
+State 122
 
    22 un_champ: IDF DEUX_POINTS . nom_type
 
-    IDF        shift, and go to state 89
-    ENTIER     shift, and go to state 90
-    REEL       shift, and go to state 91
-    BOOLEEN    shift, and go to state 92
-    CARACTERE  shift, and go to state 93
-    CHAINE     shift, and go to state 94
+    IDF        shift, and go to state 77
+    ENTIER     shift, and go to state 78
+    REEL       shift, and go to state 79
+    BOOLEEN    shift, and go to state 80
+    CARACTERE  shift, and go to state 81
+    CHAINE     shift, and go to state 82
 
-    nom_type     go to state 147
-    type_simple  go to state 96
-
-
-State 138
-
-   14 suite_declaration_type: STRUCT liste_champs FSTRUCT .
-
-    $default  reduce using rule 14 (suite_declaration_type)
+    nom_type     go to state 131
+    type_simple  go to state 84
 
 
-State 139
+State 123
 
+   14 suite_declaration_type: STRUCT liste_champs POINT_VIRGULE . FSTRUCT
    21 liste_champs: liste_champs POINT_VIRGULE . un_champ
 
-    IDF  shift, and go to state 125
+    FSTRUCT  shift, and go to state 132
+    IDF      shift, and go to state 110
 
-    un_champ  go to state 148
+    un_champ  go to state 133
 
 
-State 140
+State 124
 
    16 dimension: CROCHET_OUVRANT liste_dimensions . CROCHET_FERMANT
    18 liste_dimensions: liste_dimensions . VIRGULE une_dimension
 
-    CROCHET_FERMANT  shift, and go to state 149
-    VIRGULE          shift, and go to state 150
+    CROCHET_FERMANT  shift, and go to state 134
+    VIRGULE          shift, and go to state 135
 
 
-State 141
+State 125
 
    17 liste_dimensions: une_dimension .
 
     $default  reduce using rule 17 (liste_dimensions)
 
 
-State 142
+State 126
 
-   19 une_dimension: expression . POINT POINT expression
+   19 une_dimension: exparith . POINT POINT exparith
 
-    POINT  shift, and go to state 151
+    POINT  shift, and go to state 136
 
 
-State 143
+State 127
 
    15 suite_declaration_type: TABLEAU dimension DEUX_POINTS . nom_type
 
-    IDF        shift, and go to state 89
-    ENTIER     shift, and go to state 90
-    REEL       shift, and go to state 91
-    BOOLEEN    shift, and go to state 92
-    CARACTERE  shift, and go to state 93
-    CHAINE     shift, and go to state 94
+    IDF        shift, and go to state 77
+    ENTIER     shift, and go to state 78
+    REEL       shift, and go to state 79
+    BOOLEEN    shift, and go to state 80
+    CARACTERE  shift, and go to state 81
+    CHAINE     shift, and go to state 82
 
-    nom_type     go to state 152
-    type_simple  go to state 96
-
-
-State 144
-
-   65 variable: IDF CROCHET_OUVRANT IDF CROCHET_FERMANT POINT IDF .
-
-    $default  reduce using rule 65 (variable)
+    nom_type     go to state 137
+    type_simple  go to state 84
 
 
-State 145
+State 128
 
-   57 condition: SI exprel ALORS liste_instructions SINON liste_instructions .
+   61 variable: IDF CROCHET_OUVRANT IDF CROCHET_FERMANT POINT IDF .
 
-    $default  reduce using rule 57 (condition)
+    $default  reduce using rule 61 (variable)
 
 
-State 146
+State 129
+
+   53 condition: SI exprel ALORS liste_instructions SINON liste_instructions .
+
+    $default  reduce using rule 53 (condition)
+
+
+State 130
 
    29 type_simple: CHAINE CROCHET_OUVRANT CSTE_ENTIERE CROCHET_FERMANT .
 
     $default  reduce using rule 29 (type_simple)
 
 
-State 147
+State 131
 
    22 un_champ: IDF DEUX_POINTS nom_type .
 
     $default  reduce using rule 22 (un_champ)
 
 
-State 148
+State 132
+
+   14 suite_declaration_type: STRUCT liste_champs POINT_VIRGULE FSTRUCT .
+
+    $default  reduce using rule 14 (suite_declaration_type)
+
+
+State 133
 
    21 liste_champs: liste_champs POINT_VIRGULE un_champ .
 
     $default  reduce using rule 21 (liste_champs)
 
 
-State 149
+State 134
 
    16 dimension: CROCHET_OUVRANT liste_dimensions CROCHET_FERMANT .
 
     $default  reduce using rule 16 (dimension)
 
 
-State 150
+State 135
 
    18 liste_dimensions: liste_dimensions VIRGULE . une_dimension
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 36
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
 
-    une_dimension  go to state 153
-    expression     go to state 142
-    exparith       go to state 41
-    e1             go to state 42
-    e2             go to state 43
-    e3             go to state 44
-    exprel         go to state 45
+    une_dimension  go to state 138
+    exparith       go to state 126
+    e1             go to state 40
+    e2             go to state 41
+    e3             go to state 42
 
 
-State 151
+State 136
 
-   19 une_dimension: expression POINT . POINT expression
+   19 une_dimension: exparith POINT . POINT exparith
 
-    POINT  shift, and go to state 154
+    POINT  shift, and go to state 139
 
 
-State 152
+State 137
 
    15 suite_declaration_type: TABLEAU dimension DEUX_POINTS nom_type .
 
     $default  reduce using rule 15 (suite_declaration_type)
 
 
-State 153
+State 138
 
    18 liste_dimensions: liste_dimensions VIRGULE une_dimension .
 
     $default  reduce using rule 18 (liste_dimensions)
 
 
-State 154
+State 139
 
-   19 une_dimension: expression POINT POINT . expression
+   19 une_dimension: exparith POINT POINT . exparith
 
-    PARENTHESE_OUVRANTE  shift, and go to state 35
-    IDF                  shift, and go to state 36
-    CSTE_ENTIERE         shift, and go to state 37
-    CSTE_REEL            shift, and go to state 38
+    PARENTHESE_OUVRANTE  shift, and go to state 34
+    CSTE_ENTIERE         shift, and go to state 35
+    CSTE_REEL            shift, and go to state 36
 
-    expression  go to state 155
-    exparith    go to state 41
-    e1          go to state 42
-    e2          go to state 43
-    e3          go to state 44
-    exprel      go to state 45
+    exparith  go to state 140
+    e1        go to state 40
+    e2        go to state 41
+    e3        go to state 42
 
 
-State 155
+State 140
 
-   19 une_dimension: expression POINT POINT expression .
+   19 une_dimension: exparith POINT POINT exparith .
 
     $default  reduce using rule 19 (une_dimension)

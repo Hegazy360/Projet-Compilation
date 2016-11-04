@@ -84,7 +84,8 @@ extern int yydebug;
     MOINS = 294,
     MULT = 295,
     DIV = 296,
-    OP_COMP = 297
+    OP_COMP = 297,
+    EXP_BOOL = 298
   };
 #endif
 

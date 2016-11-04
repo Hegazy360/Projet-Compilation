@@ -1,1 +1,23 @@
-x+y:=3.5;
+prog
+type t:
+	struct
+		x:int;
+		y:float;
+		z:bool;
+		a:char;
+		b:string[15];
+	endstruct;
+
+function f(x:int; y:float) return int{
+	x:=3+2;
+}
+
+procedure p(x:int; y:char){
+	while 3 < 2 do{
+		x:=3;
+	}
+}
+
+{
+	vide;
+}
