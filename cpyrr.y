@@ -142,16 +142,10 @@ expression: exparith
 | exprel /*Relations de comparaison (Ex. x < y, a = b, 60 > 30...)*/
 ;
 
-variable: variable_structure
-;
-
-variable_structure: variable_simple
-| variable_structure POINT IDF
-| variable_structure POINT IDF indices
-;
-
-variable_simple: IDF
+variable: IDF
 | IDF indices
+|	variable POINT IDF
+| variable POINT IDF indices 
 ;
 
 indices: CROCHET_OUVRANT exparith CROCHET_FERMANT
@@ -174,7 +168,7 @@ e2: e2 MULT e3
 e3: PARENTHESE_OUVRANTE e1 PARENTHESE_FERMANTE
 | CSTE_ENTIERE
 | CSTE_REEL
-| variable
+| variable POINT //Pour le moment, pas de meilleure idée pour résoudre les conflits
 | appel
 ;
 

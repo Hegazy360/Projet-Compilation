@@ -9,17 +9,17 @@ type t:
 	endstruct;
 
 function f(x:int; y:float) return int{
-	x:=y[z+y*3+x].x.f[3];
+	x := y[z.+y.*3+x.].x.f[3].;
 }
 
 procedure p(x:int; y:char){
 	while (3 < 2) do{
-		x:=3;
+		x := 3;
 	}
 	
-	if (3>2) then {
-		x:=3*6/2-6*8;
-		f(x);
+	if (z. > t.) then {
+		x := 3*6/2-6*8;
+		f(x.);
 	}
 	else{
 		vide;
