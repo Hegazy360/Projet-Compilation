@@ -1,6 +1,19 @@
 prog
+type x: struct y:int;k:float;s:bool;o:string[30] endstruct;
+type t : array[1..5,2..3,1..9]: int;
+procedure test(3;k:int;e:float;i:bool) {
+a := x.y;
+a := x[d];
+a := x[3+x-3*3/k];
+}
 {
 x:= 2+1; y:= 5; t(x);
 x:= 2; y:= 5; f(x*3)+1; t(x*3)-1;
 tab[x]:= 2; tab[x].T:=4;
+x.y := 2;
+a := x.y;
+a := x[d];
+a := x[3+x-3*3/k];
+u := t[x].f[t[y].k.i(3+4)+4].f(x*3).k[i.i(3)];
 }
+
