@@ -14,8 +14,6 @@ cpyrr: lex.yy.o y.tab.c
 	$(CCO) $@ lex.yy.o y.tab.c -ly -ll
 y.tab.c: cpyrr.y
 	$(YACC) cpyrr.y
-	mv cpyrr.tab.c y.tab.c
-	mv cpyrr.tab.h y.tab.h
 lex.yy.o: lex.yy.c
 	$(CC) lex.yy.c
 lex.yy.c: cpyrr.l

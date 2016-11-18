@@ -33,6 +33,7 @@ while {return (TANT_QUE);}
 do {return (FAIRE);}
 bool {return (BOOLEEN);}
 vide {return (VIDE);}
+true|false {return (BOOL);}
 ({chiffre})+\.({chiffre})+ {return (CSTE_REEL);}
 ({chiffre})+ {return (CSTE_ENTIERE);}
 char {return (CARACTERE);}
@@ -42,6 +43,7 @@ string {return (CHAINE);}
 \[ {return (CROCHET_OUVRANT);}
 \] {return (CROCHET_FERMANT);}
 \, {return (VIRGULE);} 
+\.{2} {return (POINT_2);}
 \. {return (POINT);}
 \( {return (PARENTHESE_OUVRANTE);}
 \) {return (PARENTHESE_FERMANTE);}

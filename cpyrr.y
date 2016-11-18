@@ -7,13 +7,13 @@ extern int numligne;
 %};
 %token PROG DEBUT FIN STRUCT FSTRUCT TABLEAU DE VARIABLE PROCEDURE FONCTION
 %token RETOURNE VIDE
-%token POINT_VIRGULE DEUX_POINTS POINT CROCHET_OUVRANT CROCHET_FERMANT VIRGULE
+%token POINT_VIRGULE DEUX_POINTS POINT POINT_2 CROCHET_OUVRANT CROCHET_FERMANT VIRGULE
 %token PARENTHESE_OUVRANTE PARENTHESE_FERMANTE
 %token TYPE IDF
  /*Ajouté le 15 Octobre 2016*/
 %token ENTIER REEL BOOLEEN CARACTERE CHAINE CSTE_ENTIERE CSTE_REEL
 %token SI ALORS SINON TANT_QUE FAIRE OPAFF
-%token PLUS MOINS MULT DIV OP_COMP EXP_BOOL
+%token PLUS MOINS MULT DIV OP_COMP BOOL
 
 %%
 programme:PROG corps
@@ -55,7 +55,7 @@ liste_dimensions: une_dimension
 | liste_dimensions VIRGULE une_dimension
 ;
 
-une_dimension: exparith POINT POINT exparith
+une_dimension: exparith POINT_2 exparith
 ;
 
 liste_champs: un_champ
@@ -126,16 +126,11 @@ liste_args: un_arg
 | liste_args VIRGULE un_arg
 ;
 
-<<<<<<< HEAD
 un_arg: exparith
-=======
-un_arg: variable
-|expression
->>>>>>> 049a2cd2e0390cb6356a14df4c62d6b44e654232
 ;
 
-condition: SI PARENTHESE_OUVRANTE exprel PARENTHESE_FERMANTE ALORS liste_instructions
-| SI PARENTHESE_OUVRANTE exprel PARENTHESE_FERMANTE ALORS liste_instructions SINON liste_instructions 
+condition: SI exprel ALORS liste_instructions
+| SI exprel ALORS liste_instructions SINON liste_instructions 
 ;
 
 tant_que: TANT_QUE PARENTHESE_OUVRANTE exprel PARENTHESE_FERMANTE FAIRE liste_instructions
@@ -146,11 +141,9 @@ affectation: variable OPAFF exparith
 
 expression: exparith
 | exprel /*Relations de comparaison (Ex. x < y, a = b, 60 > 30...)*/
-| variable
 ;
 
 variable: IDF
-<<<<<<< HEAD
 | IDF indices
 |	variable POINT IDF
 | variable POINT IDF indices 
@@ -158,25 +151,9 @@ variable: IDF
 
 indices: CROCHET_OUVRANT exparith CROCHET_FERMANT
 | indices CROCHET_OUVRANT exparith CROCHET_FERMANT
-=======
-| IDF CROCHET_OUVRANT exparith CROCHET_FERMANT
-| IDF CROCHET_OUVRANT exparith CROCHET_FERMANT POINT variable
-| IDF CROCHET_OUVRANT IDF CROCHET_FERMANT
-| IDF CROCHET_OUVRANT IDF CROCHET_FERMANT POINT variable
-| IDF POINT variable
-| appel POINT variable
-| appel
->>>>>>> 049a2cd2e0390cb6356a14df4c62d6b44e654232
 ;
 
 exparith: e1
-<<<<<<< HEAD
-=======
-| IDF MULT e1
-| IDF DIV e1
-| IDF MOINS e1
-| IDF PLUS e1
->>>>>>> 049a2cd2e0390cb6356a14df4c62d6b44e654232
 ;
 
 e1: e1 PLUS e2
@@ -192,15 +169,14 @@ e2: e2 MULT e3
 e3: PARENTHESE_OUVRANTE e1 PARENTHESE_FERMANTE
 | CSTE_ENTIERE
 | CSTE_REEL
-<<<<<<< HEAD
-| variable POINT //Pour le moment, pas de meilleure idée pour résoudre les conflits
+| variable //Pour le moment, pas de meilleure idée pour résoudre les conflits
 | appel
-=======
-| variable
->>>>>>> 049a2cd2e0390cb6356a14df4c62d6b44e654232
 ;
 
 exprel: exparith OP_COMP exparith
+| PARENTHESE_OUVRANTE exparith OP_COMP exparith PARENTHESE_FERMANTE
+| PARENTHESE_OUVRANTE BOOL PARENTHESE_FERMANTE
+//| PARENTHESE_OUVRANTE PARENTHESE_FERMANTE
 ;
 
 ;
