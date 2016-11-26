@@ -41,7 +41,6 @@ void cree_tabdec(){
 
 }
 
-
 void inserer_tabdec(int indice,int nature,int suivant,int region,int description,int execution){
 								tabdecl[indice].nature = nature;
 								tabdecl[indice].suivant = suivant;
