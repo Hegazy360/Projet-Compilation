@@ -80,7 +80,22 @@ void inserer_tab(int region,int nombre_lexico,int dimension){
 									indice_debordement++;
 	}
 }
-void inserer_struct(){
+void inserer_struct(int region,int nombre_lexico,int nombre_elements){
+	if(tabdecl[nombre_lexico].nature == -1) {
+									inserer_tabdec(nombre_lexico, STRUCT, -1,region, indice_representation, 0);
+									tabrep[indice_representation]=nombre_elements;
+									indice_representation++;
+									indice_declaration++;
+	}
+	else {
+									int indice = trouver_indice_insertion(nombre_lexico);
+
+									inserer_tabdec(indice_debordement, STRUCT, -1, region, indice_representation, 0);
+									tabdecl[indice].suivant = indice_debordement;
+									tabrep[indice_representation]=nombre_elements;
+									indice_representation++;
+									indice_debordement++;
+	}
 }
 void inserer_var(int region,int nombre_lexico){
 								if(tabdecl[nombre_lexico].nature == -1) {
@@ -94,7 +109,19 @@ void inserer_var(int region,int nombre_lexico){
 																indice_debordement++;
 								}
 }
-void inserer_procedure(int region,int description){
+void inserer_procedure(int region,int description,int nombre_lexico){
+	if(tabdecl[nombre_lexico].nature == -1) {
+									inserer_tabdec(nombre_lexico, PROC, -1,region, description, 0);
+									indice_declaration++;
+	}
+	else {
+									int indice = trouver_indice_insertion(nombre_lexico);
+									printf("%d\n",indice);
+
+									inserer_tabdec(indice_debordement, PROC, -1, region, description, 0);
+									tabdecl[indice].suivant = indice_debordement;
+									indice_debordement++;
+	}
 }
 int trouver_indice_insertion(int indice){
 								if(tabdecl[indice].suivant == -1)
