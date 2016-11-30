@@ -10,6 +10,7 @@ VIRGULE, POINT, PARENTHESE_OUVRANTE, PARENTHESE_FERMANTE, OPAFF, MOINS, MULT, DI
 lettre [a-zA-Z]
 chiffre [0-9]
 signe <(=)?|>(=)?|={2}|!=
+opcond et|ou|non
 
 %%
 \;	{return (POINT_VIRGULE);}

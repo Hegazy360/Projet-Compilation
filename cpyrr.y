@@ -13,7 +13,7 @@ extern int numligne;
  /*Ajouté le 15 Octobre 2016*/
 %token ENTIER REEL BOOLEEN CARACTERE CHAINE CSTE_ENTIERE CSTE_REEL
 %token SI ALORS SINON TANT_QUE FAIRE OPAFF
-%token PLUS MOINS MULT DIV OP_COMP BOOL
+%token PLUS MOINS MULT DIV OP_COMP BOOL OP_COND
 
 %%
 programme:PROG corps
@@ -169,7 +169,7 @@ e2: e2 MULT e3
 e3: PARENTHESE_OUVRANTE e1 PARENTHESE_FERMANTE
 | CSTE_ENTIERE
 | CSTE_REEL
-| variable //Pour le moment, pas de meilleure idée pour résoudre les conflits
+| variable
 | appel
 ;
 
@@ -179,7 +179,7 @@ exprel: exparith OP_COMP exparith
 //| PARENTHESE_OUVRANTE PARENTHESE_FERMANTE
 ;
 
-;
+
 %%
 
 int yyerror(){

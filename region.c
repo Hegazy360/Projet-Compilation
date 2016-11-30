@@ -5,9 +5,9 @@
 
 
 void inserer_table_region(int taille, int NIS, arbre* linkedT){
-	if (nb_regions < MAXREG - 1){ //Pour inserer, il faut au moins une case
+	if (nb_regions < MAXREG - 1){ //On ne peut pas inserer si la table de region est pleine
 		tabreg[nb_regions].taille = calcul_taille(nb_regions);
-		//tabreg[nb_regions].NIS = calcul_nis();
+		tabreg[nb_regions].NIS = calcul_nis();
 		tabreg[nb_regions].linkedT = linkedT;
 		
 		nb_regions++;
@@ -33,7 +33,7 @@ int calcul_taille(int numregion){
 }
 
 
-/*Retourne la taille du type de numero de declaration*/
+/*Retourne la taille du type de numero de declaration numdecl*/
 int taille_type(int numdecl){
 	switch (numdecl){
 		case 0: //type int
@@ -52,7 +52,7 @@ int taille_type(int numdecl){
 			/*Le type concerne sera soit un tableau, soit une structure de donnees donc
 			 *il faudra consulter la table de representation
 			 */
-			 if (tabdecl[numdecl].nature == STRUCT){
+			 if (tabdecl[numdecl].nature == STRUCT){	
 			 }
 			 else if (tabdecl[numdecl].nature == TAB){
 			 }
@@ -63,15 +63,15 @@ int taille_type(int numdecl){
 }
 
 
-/*Retourne le niveau d'imbrication statique
+/*Retourne le niveau d'imbrication statique*/
 int calcul_nis(){
-	int NIS = 0;
-	
-	
-}*/
+	return region_courante;
+}
 
 int main(int argc, char* argv[]){
 	printf("%d\n", taille_type(atoi(argv[1])));
+	
+	
 	
 	return EXIT_SUCCESS;
 }
