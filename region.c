@@ -3,14 +3,13 @@
 #include "region.h"
 #include "tabdecl.h"
 
+extern int num_region;
 
 void inserer_table_region(int taille, int NIS, arbre* linkedT){
-	if (nb_regions < MAXREG - 1){ //On ne peut pas inserer si la table de region est pleine
-		tabreg[nb_regions].taille = calcul_taille(nb_regions);
-		tabreg[nb_regions].NIS = calcul_nis();
-		tabreg[nb_regions].linkedT = linkedT;
-		
-		nb_regions++;
+	if (num_region < MAXREG - 1){ //On ne peut pas inserer si la table de region est pleine
+		tabreg[num_region].taille = taille;
+		tabreg[num_region].NIS = NIS;
+		tabreg[num_region].linkedT = linkedT;
 	}
 	else{
 		fprintf(stderr, "Erreur : la table de region est pleine!\n");
@@ -66,6 +65,12 @@ int taille_type(int numdecl){
 /*Retourne le niveau d'imbrication statique*/
 int calcul_nis(){
 	return region_courante;
+}
+
+
+/*Incremente le nombre de region courant*/
+void incremente_region(){
+	num_region++;
 }
 
 int main(int argc, char* argv[]){
