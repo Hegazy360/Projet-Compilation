@@ -4,6 +4,8 @@
 #include "tablex.h"
 #include "tabrep.h"
 #include "tabdecl.h"
+#include "region.h"
+
 extern struct tablex tablexico[500];
 extern struct element tabdecl[MAXDECL];
 extern char* yytext;
@@ -25,6 +27,7 @@ int borne_sup[15];
 int borne_inf[15];
 int NIS;
 int first_representation;
+int taille_region;
 %};
 %token PROG DEBUT FIN STRUCT FSTRUCT TABLEAU DE VARIABLE PROCEDURE FONCTION
 %token RETOURNE VIDE
@@ -37,7 +40,7 @@ int first_representation;
 %token PLUS MOINS MULT DIV OP_COMP BOOL
 
 %%
-programme:PROG {empile(num_region);affichePileRegion();}corps
+programme:PROG {empile(num_region);insere_table_region(0);affichePileRegion();}corps
 ;
 
 corps: liste_declarations liste_instructions
@@ -48,7 +51,7 @@ liste_declarations: declaration
 | liste_declarations declaration //On ne met plus le point-virgule parce qu'après la déclaration d'une fonction ou d'une procédure, il n'y en a pas
 ;
 
-liste_instructions: DEBUT suite_liste_inst FIN {depile();printf("Taille pile region %d\n",taillePileRegion());}
+liste_instructions: DEBUT{empile(num_region);setTailleRegion(calcul_taille_region(valeurTop()); NIS = taillePileRegion() - 1; insere_table_region(NIS);} suite_liste_inst FIN {depile();printf("Taille pile region %d\n",taillePileRegion());}
 ;
 
 suite_liste_inst: instruction
@@ -100,10 +103,10 @@ type_simple: ENTIER {$$=yytext;}
 declaration_variable: VARIABLE IDF {num_lexico = indice(yytext);} DEUX_POINTS nom_type {inserer_var(num_region,num_lexico,indice($4));}
 ;
 
-declaration_procedure: PROCEDURE {num_region++;empile(num_region);NIS=taillePileRegion();}IDF {num_lexico = indice($3);} liste_parametres {inserer_procedure(num_region,indice_representation,num_lexico);num_parametres = 0;} corps
+declaration_procedure: PROCEDURE {num_region++;/*empile(num_region);NIS=taillePileRegion();*/}IDF {num_lexico = indice($3);} liste_parametres {inserer_procedure(num_region,indice_representation,num_lexico);num_parametres = 0;} corps
 ;
 
-declaration_fonction: FONCTION {num_region++;empile(num_region);NIS=taillePileRegion();}IDF {num_lexico = indice($3);} liste_parametres {printf("Num Parametre = %d\n",num_parametres);num_parametres = 0;} RETOURNE type_simple {inserer_fonction(num_region,indice_representation,num_lexico);printf("Lexeme = %s,Indice = %d\n",$7,indice($7));} corps
+declaration_fonction: FONCTION {num_region++;/*empile(num_region);NIS=taillePileRegion();*/}IDF {num_lexico = indice($3);} liste_parametres {printf("Num Parametre = %d\n",num_parametres);num_parametres = 0;} RETOURNE type_simple {inserer_fonction(num_region,indice_representation,num_lexico);printf("Lexeme = %s,Indice = %d\n",$7,indice($7));} corps
 ;
 
 liste_parametres:

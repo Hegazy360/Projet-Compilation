@@ -1,48 +1,25 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "tablex.c"
+#include "tabrep.h"
+
+int tabrep[1000];
+int indice_representation = 0;
 
 
-int TabRepresentation[1000];
-int indice = 0;
-
-
-
-void remplir(int champ){
-        if(champ >= 0) {
-                TabRepresentation[indice]=champ;
-                indice++;
-        }
+void inserer_tabrep(int indice,int valeur){
+  tabrep[indice] = valeur;
 }
-
-
-void inserer_nbchamps(int nbchamp){
-        TabRepresentation[indice]=nbchamp;
-}
-
-
-int inserer_champ(char *lexeme){
-        int i;
-        for(i=0; i <= COMPTEUR; i++) {
-                if(strcmp(tablexico[i].lexeme,lexeme) == 0) {
-                        printf("OK\n" );
-                        remplir(i);
-                        return 1;
-                }
-        }
-        return -1;
-}
-
-int main(int argc, char const *argv[])
+void affiche_rep()
 {
-        // insererlex("OK1");
-        // insererlex("OK2");
-        // insererlex("OK3");
-        // inserer_champ("OK3");
-        // inserer_champ("OK2");
-        // inserer_champ("NO");
-        // printf("%d\n",TabRepresentation[0]);
-        // printf("%d\n",TabRepresentation[1]);
-        return 0;
+
+  int i;
+  printf("***************           TABLE DE REPRESENTATION DES TYPES           ********************\n\n\n");
+
+  for(i=0; i<indice_representation; i++)
+  {
+
+                  fprintf(stdout, "%d->%d | ",i,tabrep[i]);
+
+  }
+
+  printf("\n\n");
+
 }

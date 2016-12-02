@@ -25,7 +25,7 @@ int nb_regions = 0; //Nombre de regions utilisees jusqu'a present dans le progra
 
 void inserer_table_region(int taille, int NIS, arbre* linkedT); /*Insere dans la table de region
 																																	et met a jour le nombre de regions*/
-int calcul_taille(int numregion);/*Retourne la taille de la region de numero <numregion>*/
+int calcul_taille_region(int numregion);/*Retourne la taille de la region de numero <numregion>*/
 int taille_type(int numdecl); /*Retourne la taille au type de numero de declaration <numdecl>*/
 int calcul_nis(); /*Retourne le niveau d'imbrication statique (region englobante)*/
-void incremente_numregion();
+void affiche_table_region();
