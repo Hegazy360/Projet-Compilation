@@ -5,6 +5,16 @@ var y:int;
 var z:int;
 var a:int;
 var u:int;
+
+function test2(3;a:int;b:bool) return int
+var z:int;
+var a:int;
+var u:int;
 {
+vide;
+}
+{
+x:= 2*3;
+x:= 2+1; y:= 5; t(x);
 
 }

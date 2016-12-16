@@ -86,8 +86,7 @@ extern int yydebug;
     MULT = 296,
     DIV = 297,
     OP_COMP = 298,
-    BOOL = 299,
-    OP_COND = 300
+    BOOL = 299
   };
 #endif
 

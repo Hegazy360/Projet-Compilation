@@ -1,5 +1,7 @@
 %{
 #include "y.tab.h"
+#include "tablex.h"
+extern int compter;
 int numligne=1;
 const int UNKNOWN=999;
 /*enum {POINT_VIRGULE=1, DEBUT, FIN, REEL, ENTIER, PROG, TYPE, STRUCT, FSTRUCT, TABLEAU, VARIABLE, PROCEDURE, FONCTION,
@@ -10,7 +12,6 @@ VIRGULE, POINT, PARENTHESE_OUVRANTE, PARENTHESE_FERMANTE, OPAFF, MOINS, MULT, DI
 lettre [a-zA-Z]
 chiffre [0-9]
 signe <(=)?|>(=)?|={2}|!=
-opcond et|ou|non
 
 %%
 \;	{return (POINT_VIRGULE);}
@@ -35,15 +36,15 @@ do {return (FAIRE);}
 bool {return (BOOLEEN);}
 vide {return (VIDE);}
 true|false {return (BOOL);}
-({chiffre})+\.({chiffre})+ {return (CSTE_REEL);}
-({chiffre})+ {return (CSTE_ENTIERE);}
+({chiffre})+\.({chiffre})+ {yylval = atof(yytext);return (CSTE_REEL);}
+({chiffre})+ {yylval = atoi(yytext);return (CSTE_ENTIERE);}
 char {return (CARACTERE);}
 string {return (CHAINE);}
-{lettre}({lettre}|{chiffre})* {return (IDF);}
+{lettre}({lettre}|{chiffre})* {yylval=strdup(yytext);insererlex(yytext);return (IDF);}
 \:	{return (DEUX_POINTS);}
 \[ {return (CROCHET_OUVRANT);}
 \] {return (CROCHET_FERMANT);}
-\, {return (VIRGULE);} 
+\, {return (VIRGULE);}
 \.{2} {return (POINT_2);}
 \. {return (POINT);}
 \( {return (PARENTHESE_OUVRANTE);}
@@ -57,5 +58,12 @@ string {return (CHAINE);}
 [ \t]+   ;
 \n {numligne++;}
 . {return (UNKNOWN);}
-%%
 
+%%
+/*int yywrap(){
+
+//insererlex("int");
+creertablexico();
+affichage_tab_lex();
+
+}*/

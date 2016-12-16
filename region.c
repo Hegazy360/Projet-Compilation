@@ -1,101 +1,141 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
+
+
 #include "region.h"
 #include "tabdecl.h"
 #include "pileRegion.h"
 
+
 extern int pileRegion[60];
 extern int num_region;
 
-void inserer_table_region(int NIS){
-	if (num_region < MAXREG - 1){ //On ne peut pas inserer si la table de region est pleine
-		//tabreg[num_region].taille = taille;
-		tabreg[num_region].NIS = NIS;
-		//tabreg[num_region].linkedT = linkedT;
+TableRegion tabreg = NULL;
+
+int vide(TableRegion t) {
+	if (t == NULL)
+		return 1;
+	return 0;
+}
+
+
+int pleine(TableRegion t) {
+	if (nb_regions(t) == MAXREG)
+		return 1;
+	return 0;
+}
+
+
+int nb_regions(TableRegion t) {
+	int i = 0;
+	TableRegion p = t; /*Variable qui parcourt la table*/
+	
+	while (p != NULL) {
+		p = p->suivant;
+		i++;
 	}
-	else{
-		fprintf(stderr, "Erreur : la table de region est pleine!\n");
-		exit(-1);
+	
+	return i;
+}
+
+
+/*Initialise le premier enregistrement de la table t*/
+void initialiser_table_region(TableRegion t) {
+		t->taille = 0;
+		t->NIS = 0;
+		t->linkedT = NULL;
+		t->suivant = NULL;
+}
+
+
+TableRegion ieme(int i, TableRegion t) {
+	
+	if (i < 0 || i >= nb_regions(t)) { /* ">=" parce que i est le numero de region (commence a 0...)*/
+		fprintf(stderr, "Erreur : numero de region invalide!\n");
+		
+		 return NULL;
+	}
+	
+	
+	if (vide(t)) {
+		fprintf(stderr, "Erreur : table de regions vide!\n");
+		
+		return NULL;
+	}
+	
+	
+	TableRegion p = t;
+	int inc = 0;
+	
+	while (inc != i) {
+		p = p->suivant;
+		inc++;
+	}
+	
+	return p;
+}
+
+
+
+void inserer_table_region(TableRegion t, int taille, int NIS, arbre* linkedT) {
+	if (pleine(t))
+		fprintf(stderr, "Erreur : la table de region est deja pleine!");
+	else {
+		TableRegion tabIns = (TableRegion) malloc (sizeof(record_region));
+		
+		assert(tabIns != NULL);
+		
+		TableRegion dernier = ieme(nb_regions(t) - 1, t);
+		
+		tabIns->taille = taille;
+		tabIns->NIS = NIS;
+		tabIns->linkedT = linkedT;
+		tabIns->suivant = NULL;
+		
+		dernier->suivant = tabIns;
+		
+		free(tabIns);
 	}
 }
 
-void setTailleRegion(int numregion, int taille){
-	tabreg[numregion] = taille;
-}
-
-void setArbre(int numregion, arbre* linkedT){
-	tabreg[numregion] = linkedT;
-}
 
 
 /*Fonction de calcul de la taille d'une zone de donnees*/
 int calcul_taille_region(int numregion){
-	int taille = 0; //Taille de la region
+	int taille = 0;
 	
-	for (int i = 0; i < MAXDECL; i++){
-		if (tabdecl[i].region == numregion && tabdecl[i].nature == VAR){
+	for (int i = 4; i < MAXDECL && tabdecl[i].region != -1; i++) {
+		if (tabdecl[i].region == numregion && tabdecl[i].nature == VAR)
 			taille += taille_type(tabdecl[i].description);
-		}
 	}
 	
 	return taille;
 }
 
 
+
 /*Retourne la taille du type de numero de declaration numdecl*/
 int taille_type(int numdecl){
-	switch (numdecl){
-		case 0: //type int
-			return (int) sizeof(int);
-			break;
-		case 1: //type float
-			return (int) sizeof(float);
-			break;
-		case 2: //type boolean
-			return 1;
-			break;
-		case 3: //type char
-			return (int) sizeof(char);
-			break;
-		default:
-			/*Le type concerne sera soit un tableau, soit une structure de donnees donc
-			 *il faudra consulter la table de representation
-			 */
-			 if (tabdecl[numdecl].nature == STRUCT){
-			 	int i = tabdecl[numdecl].description;
-			 	int taille_s = tabrep[i];
-			 	int taille = 0;
-			 	int j = i;
-			 	
-			 	while (j <= i + 2*taille_s){
-			 		taille += taille_type(tabrep[j+2]);
-			 		j += 2;
-			 	}
-				
-				return taille;
-			 }
-			 else if (tabdecl[numdecl].nature == TAB){
-			 	int nb_cases = 0;
-			 	int i = tabdecl[numdecl].description;
-			 	int taille_t = taille_type(tabrep[i]); //taille du type du tableau
-			 	
-			 	for (int j = i + 2; j <= i + 2*tabrep[i+1]; j+=2){
-			 		nb_cases = tabrep[j+1] - tabrep[j] + 1;
-			 	}
-			 	
-			 	return taille_t * nb_cases;
-			 }
-			 break;
-		}
-		 
-		return 0; /*On renvoie parce qu'il peut plus s'agir d'un type*/
+	if (numdecl == 0 || numdecl == 1 || numdecl == 2 || numdecl == 3)
+		return 1;
+	else if (tabdecl[numdecl].nature == TAB || tabdecl[numdecl].nature == STRUCT)
+		/*Le type concerne sera soit un tableau, 
+		*soit une structure de donnees
+		*Le champ execution contient la taille a l'execution de ces types
+		*/
+		
+		return tabdecl[numdecl].execution;
+		
+	return 0; /* <numdecl> n'indexe pas un type */
+		
 }
 
 
-/*Retourne le niveau d'imbrication statique*/
+/*Retourne le niveau d'imbrication statique
 int calcul_nis(){
 	return valeurTop();
-}
+}*/
 
 
 /*Incremente le nombre de region courant
@@ -104,20 +144,28 @@ void incremente_region(){
 }
 */
 
-void affiche_table_region(){
-	printf("  taille\tNIS\n");
+void affiche_tableRegion(TableRegion t) {
+	if (vide(t))
+		fprintf(stderr, "VIDE!\n");
 	
-	for (int i = 0; i<num_region; i++){
-		printf("%d %d\t%d\n",i, tabreg[i].taille, tabreg[i].NIS);
+	printf ("\t*****TABLE DE REGIONS*****\t\n");
+	
+	TableRegion p = t;
+	
+	for (int i = 0; i < nb_regions(t); i++) {
+		fprintf(stdout, "%d | %d | %d | %p\n", i, p->taille, p->NIS, p->linkedT);
+		p = p->suivant;
 	}
+	
 }
 
-/*
+
 int main(int argc, char* argv[]){
-	printf("%d\n", taille_type(atoi(argv[1])));
+	cree_tabdec();
+	
+	printf("Vide ? : %d\n", vide(tabreg));
 	
 	
 	
 	return EXIT_SUCCESS;
-*/
 }

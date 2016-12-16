@@ -1,11 +1,14 @@
-#include <pile.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "pile.h"
 
 
 Pile MaPile;
 MaPile.sommet = 0;
 MaPile.indice
 
-
+/*
 ElementPile create_ElementPile(int i,char a,bool b,float s){
       ElementPile e;
       e.entier = i;
@@ -31,3 +34,5 @@ void End_function(){
 	MaPile.tab_BC[MaPile.indice_BC] = MaPile.sommet; // ON STOCKE l indice du commencement de chaque fonction dans la pile dans la table_BC
 	MaPile.indice_BC++;
 }
+*/
+

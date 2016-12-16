@@ -544,12 +544,14 @@ char *yytext;
 #line 1 "cpyrr.l"
 #line 2 "cpyrr.l"
 #include "y.tab.h"
+#include "tablex.h"
+extern int compter;
 int numligne=1;
 const int UNKNOWN=999;
 /*enum {POINT_VIRGULE=1, DEBUT, FIN, REEL, ENTIER, PROG, TYPE, STRUCT, FSTRUCT, TABLEAU, VARIABLE, PROCEDURE, FONCTION,
 RETOURNE, SI, ALORS, SINON, TANT_QUE, FAIRE, BOOLEEN, VIDE, CSTE_DECIMALE, CSTE_ENTIERE, CARACTERE, CHAINE, IDF, DEUX_POINTS, CROCHET_OUVRANT, CROCHET_FERMANT,
 VIRGULE, POINT, PARENTHESE_OUVRANTE, PARENTHESE_FERMANTE, OPAFF, MOINS, MULT, DIV, PLUS, OP_COMP, UNKNOWN}*/
-#line 553 "lex.yy.c"
+#line 555 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -767,9 +769,9 @@ YY_DECL
 		}
 
 	{
-#line 15 "cpyrr.l"
+#line 16 "cpyrr.l"
 
-#line 773 "lex.yy.c"
+#line 775 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -828,231 +830,231 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 16 "cpyrr.l"
+#line 17 "cpyrr.l"
 {return (POINT_VIRGULE);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 17 "cpyrr.l"
+#line 18 "cpyrr.l"
 {return (DEBUT);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 18 "cpyrr.l"
+#line 19 "cpyrr.l"
 {return (FIN);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 19 "cpyrr.l"
+#line 20 "cpyrr.l"
 {yylval = atof(yytext);return (REEL);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 20 "cpyrr.l"
+#line 21 "cpyrr.l"
 {return (ENTIER);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 21 "cpyrr.l"
+#line 22 "cpyrr.l"
 {return (PROG);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 22 "cpyrr.l"
+#line 23 "cpyrr.l"
 {return (TYPE);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 23 "cpyrr.l"
+#line 24 "cpyrr.l"
 {return (STRUCT);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 24 "cpyrr.l"
+#line 25 "cpyrr.l"
 {return (FSTRUCT);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 25 "cpyrr.l"
+#line 26 "cpyrr.l"
 {return (TABLEAU);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 26 "cpyrr.l"
+#line 27 "cpyrr.l"
 {return (VARIABLE);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 27 "cpyrr.l"
+#line 28 "cpyrr.l"
 {return (PROCEDURE);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 28 "cpyrr.l"
+#line 29 "cpyrr.l"
 {return (FONCTION);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 29 "cpyrr.l"
+#line 30 "cpyrr.l"
 {return (RETOURNE);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 30 "cpyrr.l"
+#line 31 "cpyrr.l"
 {return (SI);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 31 "cpyrr.l"
+#line 32 "cpyrr.l"
 {return (ALORS);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 32 "cpyrr.l"
+#line 33 "cpyrr.l"
 {return (SINON);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 33 "cpyrr.l"
+#line 34 "cpyrr.l"
 {return (TANT_QUE);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 34 "cpyrr.l"
+#line 35 "cpyrr.l"
 {return (FAIRE);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 35 "cpyrr.l"
+#line 36 "cpyrr.l"
 {return (BOOLEEN);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 36 "cpyrr.l"
+#line 37 "cpyrr.l"
 {return (VIDE);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 37 "cpyrr.l"
+#line 38 "cpyrr.l"
 {return (BOOL);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 38 "cpyrr.l"
-{return (CSTE_REEL);}
+#line 39 "cpyrr.l"
+{yylval = atof(yytext);return (CSTE_REEL);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 39 "cpyrr.l"
-{return (CSTE_ENTIERE);}
+#line 40 "cpyrr.l"
+{yylval = atoi(yytext);return (CSTE_ENTIERE);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 40 "cpyrr.l"
+#line 41 "cpyrr.l"
 {return (CARACTERE);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 41 "cpyrr.l"
+#line 42 "cpyrr.l"
 {return (CHAINE);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 42 "cpyrr.l"
-{return (IDF);}
+#line 43 "cpyrr.l"
+{yylval=strdup(yytext);insererlex(yytext);return (IDF);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 43 "cpyrr.l"
+#line 44 "cpyrr.l"
 {return (DEUX_POINTS);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 44 "cpyrr.l"
+#line 45 "cpyrr.l"
 {return (CROCHET_OUVRANT);}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 45 "cpyrr.l"
+#line 46 "cpyrr.l"
 {return (CROCHET_FERMANT);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 46 "cpyrr.l"
-{return (VIRGULE);} 
+#line 47 "cpyrr.l"
+{return (VIRGULE);}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 47 "cpyrr.l"
+#line 48 "cpyrr.l"
 {return (POINT_2);}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 48 "cpyrr.l"
+#line 49 "cpyrr.l"
 {return (POINT);}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 49 "cpyrr.l"
+#line 50 "cpyrr.l"
 {return (PARENTHESE_OUVRANTE);}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 50 "cpyrr.l"
+#line 51 "cpyrr.l"
 {return (PARENTHESE_FERMANTE);}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 51 "cpyrr.l"
+#line 52 "cpyrr.l"
 {return (OPAFF);}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 52 "cpyrr.l"
+#line 53 "cpyrr.l"
 {return (MOINS);}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 53 "cpyrr.l"
+#line 54 "cpyrr.l"
 {return (MULT);}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 54 "cpyrr.l"
+#line 55 "cpyrr.l"
 {return (DIV);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 55 "cpyrr.l"
+#line 56 "cpyrr.l"
 {return (PLUS);}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 56 "cpyrr.l"
+#line 57 "cpyrr.l"
 {return (OP_COMP);}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 57 "cpyrr.l"
+#line 58 "cpyrr.l"
 ;
 	YY_BREAK
 case 43:
 /* rule 43 can match eol */
 YY_RULE_SETUP
-#line 58 "cpyrr.l"
+#line 59 "cpyrr.l"
 {numligne++;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 59 "cpyrr.l"
+#line 60 "cpyrr.l"
 {return (UNKNOWN);}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 60 "cpyrr.l"
+#line 62 "cpyrr.l"
 ECHO;
 	YY_BREAK
-#line 1056 "lex.yy.c"
+#line 1058 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2053,8 +2055,14 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 60 "cpyrr.l"
+#line 62 "cpyrr.l"
 
 
+/*int yywrap(){
 
+//insererlex("int");
+creertablexico();
+affichage_tab_lex();
+
+}*/
 

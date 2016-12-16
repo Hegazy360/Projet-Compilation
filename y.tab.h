@@ -30,8 +30,8 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_YY_CPYRR_TAB_H_INCLUDED
-# define YY_YY_CPYRR_TAB_H_INCLUDED
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -89,6 +89,49 @@ extern int yydebug;
     BOOL = 299
   };
 #endif
+/* Tokens.  */
+#define PROG 258
+#define DEBUT 259
+#define FIN 260
+#define STRUCT 261
+#define FSTRUCT 262
+#define TABLEAU 263
+#define DE 264
+#define VARIABLE 265
+#define PROCEDURE 266
+#define FONCTION 267
+#define RETOURNE 268
+#define VIDE 269
+#define POINT_VIRGULE 270
+#define DEUX_POINTS 271
+#define POINT 272
+#define POINT_2 273
+#define CROCHET_OUVRANT 274
+#define CROCHET_FERMANT 275
+#define VIRGULE 276
+#define PARENTHESE_OUVRANTE 277
+#define PARENTHESE_FERMANTE 278
+#define TYPE 279
+#define IDF 280
+#define ENTIER 281
+#define REEL 282
+#define BOOLEEN 283
+#define CARACTERE 284
+#define CHAINE 285
+#define CSTE_ENTIERE 286
+#define CSTE_REEL 287
+#define SI 288
+#define ALORS 289
+#define SINON 290
+#define TANT_QUE 291
+#define FAIRE 292
+#define OPAFF 293
+#define PLUS 294
+#define MOINS 295
+#define MULT 296
+#define DIV 297
+#define OP_COMP 298
+#define BOOL 299
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -102,4 +145,4 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_CPYRR_TAB_H_INCLUDED  */
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
